@@ -21,6 +21,14 @@ class Desklamp extends React.Component{
     this.routeLink = this.routeLink.bind(this);
   }
 
+componentWillMount(){
+      window.onhashchange = function(e){
+        let pathstring = location.hash;
+        this.routeLink({target: {innerHTML: pathstring.replace("#/", "")}});
+        console.log('hit listener');
+        }.bind(this);
+    }
+  
   changeView(view, newState){
     // update appState only by copying
     const appState = Object.assign({}, this.state.appState, newState);
@@ -28,6 +36,8 @@ class Desklamp extends React.Component{
     this.setState({ view: this.state.views[view] , appState: appState});
   }
   routeLink(view){
+    let page = Object.assign({}, window.history.state, {page: view.target.innerHTML});
+    window.location.hash = ("#/" + view.target.innerHTML);
     this.setState({ view: this.state.views[view.target.innerHTML]});
   }
 
