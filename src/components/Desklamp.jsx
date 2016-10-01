@@ -34,6 +34,8 @@ componentWillMount(){
     const appState = Object.assign({}, this.state.appState, newState);
     //update appState on this.state
     this.setState({ view: this.state.views[view] , appState: appState});
+    console.log(view);
+    window.location.hash = ("#/" + view);
   }
   routeLink(view){
     let page = Object.assign({}, window.history.state, {page: view.target.innerHTML});
