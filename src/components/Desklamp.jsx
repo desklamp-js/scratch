@@ -18,21 +18,26 @@ class Desklamp extends React.Component{
       },
     };
     this.changeView = this.changeView.bind(this);
+    this.routeLink = this.routeLink.bind(this);
   }
 
-  changeView(view){
-    const appState = Object.assign({}, this.state.appState, {random: 'reallybye'})
-    this.setState({ view: this.state.views[view.target.innerHTML] , appState: appState});
-    console.log(this.state.appState);
-
+  changeView(view, newState){
+    // update appState only by copying
+    const appState = Object.assign({}, this.state.appState, newState);
+    //update appState on this.state
+    this.setState({ view: this.state.views[view] , appState: appState});
   }
+  routeLink(view){
+    this.setState({ view: this.state.views[view.target.innerHTML]});
+  }
+
 
   render(){
     return ( 
       <div>
-        <button onClick={this.changeView}>Login</button>
-        <button onClick={this.changeView}>Profile</button>
-        {<this.state.view />}
+        <button onClick={this.routeLink}>Login</button>
+        <button onClick={this.routeLink}>Profile</button>
+        {<this.state.view changeView={this.changeView} appState = {this.state.appState}/>}
       </div>
     )
     
