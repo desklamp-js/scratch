@@ -1,6 +1,8 @@
 import React from 'react';
 import Login from './Login';
 import Profile from './Profile';
+import Messages from './Messages';
+import $ from 'jquery';
 
 class Desklamp extends React.Component{
   constructor(){
@@ -15,10 +17,12 @@ class Desklamp extends React.Component{
       views: {
         Login: Login,
         Profile: Profile,
+        Messages: Messages,
       },
     };
     this.changeView = this.changeView.bind(this);
     this.routeLink = this.routeLink.bind(this);
+    this.getMessages = this.getMessages.bind(this);
   }
 
 componentWillMount(){
@@ -38,18 +42,25 @@ componentWillMount(){
     window.location.hash = ("#/" + view);
   }
   routeLink(view){
-    let page = Object.assign({}, window.history.state, {page: view.target.innerHTML});
     window.location.hash = ("#/" + view.target.innerHTML);
-    this.setState({ view: this.state.views[view.target.innerHTML]});
+    this.setState({ view: this.state.views[view.target.innerHTML] });
   }
 
-
+  getMessages(){
+      let that = this;
+      $.get("http://slack-server.elasticbeanstalk.com/messages", function(data){
+        const messages = { messages: data };
+        that.changeView('Messages', messages);
+      })
+  }
+  
   render(){
     return ( 
       <div>
         <button onClick={this.routeLink}>Login</button>
         <button onClick={this.routeLink}>Profile</button>
-        {<this.state.view changeView={this.changeView} appState = {this.state.appState}/>}
+        <button onClick={this.getMessages}>Messages</button>
+        {<this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />}
       </div>
     )
     
