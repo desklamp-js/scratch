@@ -12,4 +12,3 @@ ReactDOM.render((
     <Messages />
   </Container>
 ), document.getElementById('container'));
-
