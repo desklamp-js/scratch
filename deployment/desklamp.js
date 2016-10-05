@@ -1,5 +1,13 @@
 import React from 'react';
 
+const Nav = (...views) => {
+  return (
+    views.forEach((view) => {
+      return
+    })
+  );
+};
+
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -7,6 +15,7 @@ class Container extends React.Component {
     super();
     this.state = {
       view: '',
+      renderNav: true,
       appState: {},
       views: {},
       userFunctions: {
@@ -91,6 +100,14 @@ class Container extends React.Component {
     }
   }
 
+  Nav(nav) {
+    if (typeof nav === 'boolean') {
+      this.state.renderNav = nav;
+    } else {
+      this.state.nav = nav;
+    }
+  }
+
   changeView(view, newState) {
     // update appState only by copying
     const appState = Object.assign({}, this.state.appState, newState);
@@ -107,6 +124,7 @@ class Container extends React.Component {
   render() {
     return (
       <div>
+        
         <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
       </div>
     );
@@ -115,5 +133,6 @@ class Container extends React.Component {
 // {React.cloneElement(<this.state.view />, React.Children, this.props)}
 // {<this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />}
 // changeView={this.changeView} {...this.state.appState} getMessages={this.getMessages}
+// <this.state.nav {...this.state.views}/>
 export { Container };
 export { Desklamp };
