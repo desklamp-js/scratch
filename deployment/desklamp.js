@@ -17,6 +17,10 @@ class Desklamp extends React.Component {
     this.changeView = this.changeView.bind(this);
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
+    this.updateState = this.updateState.bind(this);
+    funcs.updateState = this.updateState;
+    this.showState = this.showState.bind(this);
+    funcs.showState = this.showState;
   }
 
   componentWillMount() {
@@ -37,6 +41,26 @@ class Desklamp extends React.Component {
     });
     const newState = Object.assign({}, this.state.views, newRoutes);
     this.setState({ views: newState, view: startRoute });
+  }
+
+  // Allows the developer to update the state of their application
+  updateState(newObj) {
+    if (newObj === Object(newObj)) {
+      const newState = Object.assign({}, this.state.appState, newObj);
+      this.setState({ appState: newState });
+    } else {
+      throw new Error('updateState(): arg must be an object.');
+    }
+  }
+
+  // Displays the current application state
+  showState() {
+    return this.state.appState;
+  }
+
+  // Keeps a point in time snapshot of the application state
+  stateHistory(state) {
+
   }
 
   changeView(view, newState) {

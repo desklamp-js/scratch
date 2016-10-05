@@ -13,3 +13,4 @@ ReactDOM.render((
   </Desklamp>
 ), document.getElementById('container'));
 
+console.log(funcs.showState());
