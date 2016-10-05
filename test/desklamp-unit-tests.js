@@ -1,5 +1,5 @@
-describe('getRoutes', function() {
-  it('should retrieve routes', function() {
+describe('getRoutes', function () {
+  it('should retrieve routes', function () {
     //HOW DO I TEST A FUNCTION WITHOUT A RETURN? PAUSING TO LOOK AT ENZYME
 
     // for (var i = 0; i < 10; i++) {
