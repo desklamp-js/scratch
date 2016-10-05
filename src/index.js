@@ -7,9 +7,7 @@ import Messages from './components/Messages';
 
 ReactDOM.render((
   <Container>
-    <Login />
-    <Profile />
-    <Messages />
+    
   </Container>
 
 ), document.getElementById('container'));
