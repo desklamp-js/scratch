@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Desklamp, funcs } from '../deployment/desklamp';
+import { Container, Desklamp } from '../deployment/desklamp';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Messages from './components/Messages';
 
 ReactDOM.render((
-  <Desklamp>
+  <Container>
     <Login />
     <Profile />
     <Messages />
-  </Desklamp>
+  </Container>
 ), document.getElementById('container'));
 
