@@ -3,15 +3,13 @@ import ReactDOM from 'react-dom';
 import { Desklamp, funcs } from './components/Desklamp';
 import Login from './components/Login';
 import Profile from './components/Profile';
-
-
-console.log(Desklamp)
-console.log(funcs);
+import Messages from './components/Messages';
 
 ReactDOM.render((
   <Desklamp>
     <Login />
     <Profile />
+    <Messages />
   </Desklamp>
 ), document.getElementById('container'));
 
