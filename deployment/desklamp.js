@@ -13,6 +13,7 @@ class Container extends React.Component {
         changeView: this.changeView,
         routeLink: this.routeLink,
       },
+      stateHistory: {},
     };
     this.addFuncs = this.addFuncs.bind(this);
     Desklamp.addFunc = this.addFuncs;
