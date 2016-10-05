@@ -13,3 +13,4 @@ ReactDOM.render((
   </Container>
 ), document.getElementById('container'));
 
+Desklamp.updateState({username: 'MichaelK'})
