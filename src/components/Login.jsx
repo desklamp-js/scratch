@@ -8,13 +8,14 @@ class Login extends React.Component {
   }
   submitting(e) {
     e.preventDefault();
-    let username = {username: ReactDOM.findDOMNode(this.refs.username).value}
+    let username = {username: ReactDOM.findDOMNode(this.refs.username).value }
     //console.log(ReactDOM.findDOMNode(this.refs.username).value, ReactDOM.findDOMNode(this.refs.password).value);
     this.props.changeView('Profile', username);
 
   }
 
   render() {
+    console.log(this.props.changeView, 'props');
     return (
       <div>
         <h1>Login Page</h1>

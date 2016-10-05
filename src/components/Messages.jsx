@@ -1,16 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-const Test = ({ messages }) => {
+const Test = ({messages}) => {
   return (
     <div>
-      {messages.map(function(message){
+      {messages.map((message) => {
         return message.message;
       })}
+      
     </div>
-  )
- 
-}
+  );
+};
 
 class Messages extends React.Component {
   constructor(props) {
@@ -19,9 +18,7 @@ class Messages extends React.Component {
 
   render() {
     return (
-      <div>
-        <Test {...this.props.appState} />
-      </div>
+      <Test {...this.props.appState} />
     );
   }
 
