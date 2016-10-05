@@ -11,4 +11,10 @@ ReactDOM.render((
     <Profile />
     <Messages />
   </Container>
+
 ), document.getElementById('container'));
+
+console.log(window.location)
+
+
+Desklamp.updateState({username: 'MichaelK'})
