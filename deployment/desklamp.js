@@ -9,7 +9,10 @@ class Desklamp extends React.Component {
       view: '',
       appState: {},
       views: {},
-      userFunctions: {},
+      userFunctions: {
+        changeView: this.changeView,
+        routeLink: this.routeLink,
+      },
     };
     this.changeView = this.changeView.bind(this);
     this.routeLink = this.routeLink.bind(this);
@@ -21,6 +24,7 @@ class Desklamp extends React.Component {
       const pathstring = location.hash;
       this.routeLink({ target: { innerHTML: pathstring.replace('#/', '') } });
     };
+    this.getRoutes();
   }
 
   getRoutes(startRoute) {
