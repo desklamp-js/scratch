@@ -1,8 +1,8 @@
 import React from 'react';
 
-const funcs = {};
+const Desklamp = {};
 
-class Desklamp extends React.Component {
+class Container extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -14,13 +14,17 @@ class Desklamp extends React.Component {
         routeLink: this.routeLink,
       },
     };
+    this.addFuncs = this.addFuncs.bind(this);
+    Desklamp.addFunc = this.addFuncs;
+
     this.changeView = this.changeView.bind(this);
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
+
     this.updateState = this.updateState.bind(this);
-    funcs.updateState = this.updateState;
+    Desklamp.updateState = this.updateState;
     this.showState = this.showState.bind(this);
-    funcs.showState = this.showState;
+    Desklamp.showState = this.showState;
   }
 
   componentWillMount() {
@@ -63,6 +67,18 @@ class Desklamp extends React.Component {
 
   }
 
+  addFuncs(input) {
+    if (input.constructor !== Object) {
+      throw new TypeError('Input to addFuncs must be an object with methods that are functions');
+    }
+    for (let key in input) {
+      if (input[key].constructor !== Function) {
+        throw new TypeError(`Your input to addFuncs contains ${key} which is not a function`);
+      }
+      this.state.userFunctions[key] = input[key].bind(this);
+    }
+  }
+
   changeView(view, newState) {
     // update appState only by copying
     const appState = Object.assign({}, this.state.appState, newState);
@@ -87,5 +103,5 @@ class Desklamp extends React.Component {
 // {React.cloneElement(<this.state.view />, React.Children, this.props)}
 // {<this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />}
 // changeView={this.changeView} {...this.state.appState} getMessages={this.getMessages}
+export { Container };
 export { Desklamp };
-export { funcs };
