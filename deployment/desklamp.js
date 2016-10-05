@@ -13,19 +13,24 @@ class Container extends React.Component {
         changeView: this.changeView,
         routeLink: this.routeLink,
       },
-      stateHistory: {},
     };
+    // Array that stores the application history
+    this.stateHistory = ['first_history'];
+    // Adds addFuncs control to the Desklamp obj
     this.addFuncs = this.addFuncs.bind(this);
     Desklamp.addFunc = this.addFuncs;
-
+    // Binds routing and view functions
     this.changeView = this.changeView.bind(this);
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
-
+    // Adds updateState and showState funcs to Desklamp obj
     this.updateState = this.updateState.bind(this);
     Desklamp.updateState = this.updateState;
     this.showState = this.showState.bind(this);
     Desklamp.showState = this.showState;
+    // Adds history to Desklamp obj
+    this.history = this.history.bind(this);
+    Desklamp.history = this.history;
   }
 
   componentWillMount() {
@@ -51,6 +56,9 @@ class Container extends React.Component {
   // Allows the developer to update the state of their application
   updateState(newObj) {
     if (newObj === Object(newObj)) {
+      // Save old appState to history
+      this.history(this.state.appState);
+      // Update appState with new state
       const newState = Object.assign({}, this.state.appState, newObj);
       this.setState({ appState: newState });
     } else {
@@ -64,8 +72,11 @@ class Container extends React.Component {
   }
 
   // Keeps a point in time snapshot of the application state
-  stateHistory(state) {
-
+  history(newState) {
+    console.log('current history - ', this.stateHistory);
+    const oldHistory = this.stateHistory;
+    this.stateHistory = [...oldHistory, newState];
+    console.log('new history - ', this.stateHistory);
   }
 
   addFuncs(input) {

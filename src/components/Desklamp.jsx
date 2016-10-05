@@ -2,7 +2,7 @@ import React from 'react';
 import Login from './Login'; // won't know about until User tells us'
 import Profile from './Profile';
 import Messages from './Messages';
-import $ from 'jquery'; // not for deploy 
+import $ from 'jquery'; // not for deploy
 
 const funcs = {};
 
