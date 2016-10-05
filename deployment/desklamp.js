@@ -40,6 +40,9 @@ class Container extends React.Component {
     // Adds history to Desklamp obj
     this.history = this.history.bind(this);
     Desklamp.history = this.history;
+    // Adds the on function to Desklamp obj
+    this.on = this.on.bind(this);
+    Desklamp.on = this.on;
   }
 
   componentWillMount() {
@@ -64,7 +67,7 @@ class Container extends React.Component {
 
   // Allows the developer to update the state of their application
   updateState(newObj) {
-    if (newObj === Object(newObj)) {
+    if (newObj.constructor === Object) {
       // Save old appState to history
       this.history(this.state.appState);
       // Update appState with new state
@@ -86,6 +89,35 @@ class Container extends React.Component {
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
     console.log('new history - ', this.stateHistory);
+  }
+
+  // Initializes the default state, user functions, start route and navbar.
+  on(initState, userFuncs, startRoute, navbar) {
+    if (initState.constructor !== Object && initState !== undefined) {
+      throw new TypeError('on(): takes an object as a first parameter representing initial state');
+    }
+    if (userFuncs.constructor !== Object && userFuncs !== undefined) {
+      throw new TypeError('on(): takes an object as a second parameter which contains functions');
+    }
+    if (typeof startRoute !== 'string' && startRoute !== undefined) {
+      throw new TypeError('on(): takes a string as a third param which sets the default route');
+    }
+    if (typeof navbar !== 'boolean' && navbar !== undefined) {
+      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+    }
+    // Update the state to passed in initial state
+    this.updateState(initState);
+    // Add userFuncs to the userFunctions object
+    this.addFuncs(userFuncs);
+    // If there is a startRoute param, update routes with it
+    if (startRoute) {
+      this.state.view = startRoute;
+      // or - this.changeView(startRoute);
+    }
+    // If navbar param is set to true we add navbar as the first children
+    if (navbar) {
+      this.Nav(true);
+    }
   }
 
   addFuncs(input) {
@@ -124,7 +156,6 @@ class Container extends React.Component {
   render() {
     return (
       <div>
-        
         <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
       </div>
     );
