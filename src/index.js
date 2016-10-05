@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Desklamp, funcs } from './components/Desklamp';
+import { Desklamp, funcs } from '../deployment/desklamp';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Messages from './components/Messages';

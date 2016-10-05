@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Test = ({messages}) => {
+const Test = ({ messages }) => {
   return (
     <div>
       {messages.map((message) => {
@@ -17,6 +17,7 @@ class Messages extends React.Component {
   }
 
   render() {
+    console.log(this.props.appState, 'messages')
     return (
       <Test {...this.props.appState} />
     );
