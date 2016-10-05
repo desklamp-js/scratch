@@ -23,6 +23,7 @@ class Container extends React.Component {
         routeLink: this.routeLink,
       },
     };
+    // Array that stores the application history
     this.stateHistory = ['first_history'];
     // Adds addFuncs control to the Desklamp obj
     this.addFuncs = this.addFuncs.bind(this);
