@@ -1,10 +1,19 @@
 import React from 'react';
 
-const Nav = (...views) => {
+const Link = ({ routeLink, view }) => {
   return (
-    views.forEach((view) => {
-      return
-    })
+    <a href={`#/${view.name}`} >{view.name}</a>
+  );
+};
+
+const Nav = ({ routeLink, views }) => {
+  const viewArr = Object.keys(views).map(key => views[key]);
+  return (
+    <div className="nav">
+      {viewArr.map((view, index) => {
+        return (<Link key={index} routeLink={routeLink} view={view} />);
+      })}
+    </div>
   );
 };
 
@@ -62,6 +71,7 @@ class Container extends React.Component {
       newRoutes[route.type.name] = route.type;
     });
     const newState = Object.assign({}, this.state.views, newRoutes);
+    window.location.hash = (`#/${this.props.children[0].type.name}`);
     this.setState({ views: newState, view: startRoute });
   }
 
@@ -132,7 +142,7 @@ class Container extends React.Component {
     }
   }
 
-  Nav(nav) {
+  nav(nav) {
     if (typeof nav === 'boolean') {
       this.state.renderNav = nav;
     } else {
@@ -156,14 +166,12 @@ class Container extends React.Component {
   render() {
     return (
       <div>
+        <Nav routeLink={this.routeLink} views={this.state.views} />
         <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
       </div>
     );
   }
 }
-// {React.cloneElement(<this.state.view />, React.Children, this.props)}
-// {<this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />}
-// changeView={this.changeView} {...this.state.appState} getMessages={this.getMessages}
-// <this.state.nav {...this.state.views}/>
 export { Container };
 export { Desklamp };
+export { Link };
