@@ -57,7 +57,7 @@ class Container extends React.Component {
   componentWillMount() {
     window.onhashchange = () => {
       const pathstring = location.hash;
-      this.routeLink({ target: { innerHTML: pathstring.replace('#/', '') } });
+      this.routeLink(pathstring.replace('#/', ''));
     };
     this.getRoutes();
   }
@@ -167,8 +167,8 @@ class Container extends React.Component {
   }
 
   routeLink(view) {
-    window.location.hash = (`#/${view.target.innerHTML}`); // TODO: let Dev pass in variable for url string
-    this.setState({ view: this.state.views[view.target.innerHTML] }); // TODO: let Dev pass in variable for url string
+    // window.location.hash = (`#/${view}`); // now we're setting this in Link component
+    this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
   }
 
   render() {
