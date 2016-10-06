@@ -1,17 +1,17 @@
 import React from 'react';
 
-const Link = ({ routeLink, view }) => {
+const Link = ({ view }) => {
   return (
     <a href={`#/${view.name}`} >{view.name}</a>
   );
 };
 
-const Nav = ({ routeLink, views }) => {
+const Nav = ({ views }) => {
   const viewArr = Object.keys(views).map(key => views[key]);
   return (
     <div className="nav">
       {viewArr.map((view, index) => {
-        return (<Link key={index} routeLink={routeLink} view={view} />);
+        return (<Link key={index} view={view} />);
       })}
     </div>
   );
@@ -64,21 +64,20 @@ class Container extends React.Component {
 
   getRoutes(startRoute) {
     const newRoutes = {};
-    //if no starting route passed in, go get starting route from first child.
+    // if no starting route passed in, go get starting route from first child.
     if (!startRoute) {
-      //if there are no children of container, default route is '/'
-      if (!this.props.children){
+      // if there are no children of container, default route is '/'
+      if (!this.props.children) {
         startRoute = '';
         throw new TypeError('Container must have children components in order to create Routes');
-      }
-      else{
+      } else {
         startRoute = this.props.children[0].type;
-        this.props.children.forEach( (route) => {
+        this.props.children.forEach((route) => {
           newRoutes[route.type.name] = route.type;
-    });
+        });
       }
     }
-    
+
     const newState = Object.assign({}, this.state.views, newRoutes);
     window.location.hash = (`#/${this.props.children[0].type.name}`);
     this.setState({ views: newState, view: startRoute });
@@ -135,7 +134,7 @@ class Container extends React.Component {
     }
     // If navbar param is set to true we add navbar as the first children
     if (navbar) {
-      this.Nav(true);
+      this.nav(true);
     }
   }
 
@@ -143,7 +142,7 @@ class Container extends React.Component {
     if (input.constructor !== Object) {
       throw new TypeError('Input to addFuncs must be an object with methods that are functions');
     }
-    for (let key in input) {
+    for (const key in input) {
       if (input[key].constructor !== Function) {
         throw new TypeError(`Your input to addFuncs contains ${key} which is not a function`);
       }
@@ -173,9 +172,17 @@ class Container extends React.Component {
   }
 
   render() {
+    if (this.nav) {
+      return (
+        <div>
+          {undefined}
+          <Nav views={this.state.views} />
+          <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
+        </div>
+      );
+    }
     return (
       <div>
-        <Nav routeLink={this.routeLink} views={this.state.views} />
         <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
       </div>
     );
