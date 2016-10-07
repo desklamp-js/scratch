@@ -1,18 +1,26 @@
 import React from 'react';
+import $ from 'jquery';
 
-const Link = ({ view }) => {
+const Link = ({ view, tag }) => {
   return (
-    <a href={`#/${view.name}`} >{view.name}</a>
+    <a href={`#/${view}`}>{tag}</a>
   );
 };
 
-const Nav = ({ views }) => {
+const SyncLink = ({ view, func }) => {
+  return (
+    <a onClick={func}>{view.name}</a>
+  );
+};
+
+const Nav = ({ views, getMessages}) => {
   const viewArr = Object.keys(views).map(key => views[key]);
   return (
     <div className="nav">
       {viewArr.map((view, index) => {
         return (<Link key={index} view={view} />);
       })}
+      <SyncLink view={views.Messages} func={getMessages} />
     </div>
   );
 };
@@ -39,6 +47,7 @@ class Container extends React.Component {
     Desklamp.addFunc = this.addFuncs;
     // Binds routing and view functions
     this.changeView = this.changeView.bind(this);
+    Desklamp.changeView = this.changeView;
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
     // Adds updateState and showState funcs to Desklamp obj
@@ -52,6 +61,8 @@ class Container extends React.Component {
     // Adds the on function to Desklamp obj
     this.on = this.on.bind(this);
     Desklamp.on = this.on;
+    // for app testing only
+    this.getMessages = this.getMessages.bind(this);
   }
 
   componentWillMount() {
@@ -171,23 +182,27 @@ class Container extends React.Component {
     this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
   }
 
-  render() {
-    if (this.nav) {
-      return (
-        <div>
-          {undefined}
-          <Nav views={this.state.views} />
-          <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
-        </div>
-      );
+  getMessages() {
+    if (!this.state.appState.messages) {
+      
     }
+    $.get('http://slack-server.elasticbeanstalk.com/messages', (data) => {
+      const messages = { messages: data };
+      Desklamp.changeView('Messages', messages);
+    });
+  }
+
+  render() {
+    const navBar = (this.state.renderNav) ? <Nav views={this.state.views} getMessages={this.getMessages} /> : undefined;
     return (
       <div>
+        {navBar}
         <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
       </div>
     );
   }
 }
+
 export { Container };
 export { Desklamp };
 export { Link };

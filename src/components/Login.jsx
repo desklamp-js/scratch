@@ -21,9 +21,9 @@ class Login extends React.Component {
         <br />
         <form onSubmit={this.submitting}>
           <div>Username</div>
-          <input type="text" ref="username"/>
+          <input type="text" ref="username" />
           <div>Password</div>
-          <input type="text" ref="password"/>
+          <input type="text" ref="password" />
           <button type="submit">Submit</button>
         </form>
       </div>

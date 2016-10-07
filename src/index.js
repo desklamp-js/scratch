@@ -11,5 +11,4 @@ ReactDOM.render((
     <Profile />
     <Messages />
   </Container>
-
 ), document.getElementById('container'));

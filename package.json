@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
     "build": "webpack",
-    "test": "mocha --compilers js:babel-core/register  --recursive" 
+    "test": "mocha --compilers js:babel-core/register  --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +33,7 @@
     "webpack-dev-server": "^1.16.1"
   },
   "dependencies": {
+    "jquery": "^3.1.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   }
