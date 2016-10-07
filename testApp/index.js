@@ -12,7 +12,7 @@ import Nav from './components/Nav';
 
 ReactDOM.render((
   <Container>
-    <Home />
+    <Home name="not-home" />
     <Login />
     <Signup />
     <Posts />
@@ -33,7 +33,7 @@ const funcs = {
       console.log('login data', data);
       $.get('http://localhost:3000/posts', (data) => {
         console.log('getting posts', data);
-        Desklamp.changeView('Posts',{ posts: data });
+        Desklamp.changeView('posts', { posts: data });
       });
     })
     .fail((err) => {
@@ -46,7 +46,7 @@ const funcs = {
       console.log('signup data', data);
       $.get('http://localhost:3000/posts', (data) => {
         console.log('getting posts', data);
-        Desklamp.changeView('Posts', { posts: data });
+        Desklamp.changeView('posts', { posts: data });
       });
     })
     .fail((err) => {
@@ -56,7 +56,7 @@ const funcs = {
   createPost: (post) => {
     $.post('http://localhost:3000/newPost', { post }, (data) => {
       console.log('Successful post creation!');
-      Desklamp.changeView('Posts', { posts: data.posts });
+      Desklamp.changeView('posts', { posts: data.posts });
     });
   },
 };
