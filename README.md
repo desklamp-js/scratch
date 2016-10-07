@@ -40,3 +40,11 @@ The _appstate_ is available to your components and functions.
 
 The custom functions declared to Desklamp.on will become your _powers_ which are automatically passed to each one of your views. You can then pass them as props down to child components as selectively as you would like. The initial state will become your _state_, also available to all the routes you have set up in your `Container`.
 
+## Built in Functions
+
+Desklamp provides some helper methods to make changing views easy.
+
+`Desklamp.changeView(viewname, change_to_state)` takes a `viewname` as a string, corresponding to the name of your view component, and an object `change_to_state` representing any state properties that need to be updated.
+
+## Debugging
+We are adding error handling messages to help you debug.
