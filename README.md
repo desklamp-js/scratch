@@ -14,6 +14,9 @@ import { Desklamp, Container } from 'desklamp';
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 ```
+`Desklamp` gives you access to our helper methods. 
+`Container` gives you the container component with all the application state.
+
 ## Routes
 
 Routing in Desklamp is meant to get you up and running with navigation and url updates, as well as browser history, as soon as possible. To create basic navigation, simply render your components inside the `Container` component Desklamp provides. For example, if you want to create routes for components `Home`, `Login`, `Signup` and `Posts`, first define these components as you normally would, then import them into your top component, and then nest them inside the `Container` component like so:
@@ -48,3 +51,6 @@ Desklamp provides some helper methods to make changing views easy.
 
 ## Debugging
 We are adding error handling messages to help you debug.
+
+### Misc
+A floor lamp is a desklamp if you put it on your desk.
