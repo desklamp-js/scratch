@@ -19,7 +19,7 @@ import ReactDOM from 'react-dom';
 
 ## Routes
 
-Routing in Desklamp is meant to get you up and running with navigation and url updates, as well as browser history, as soon as possible. To create basic navigation, simply render your components inside the `Container` component Desklamp provides. For example, if you want to create routes for components `Home`, `Login`, `Signup` and `Posts`, first define these components as you normally would, then import them into your top component, and then nest them inside the `Container` component like so:
+Routing in Desklamp is meant to get you up and running with client-side page navigation and url updates, as well as browser history, as soon as possible. To create basic navigation, simply render your components inside the `Container` component Desklamp provides. For example, if you want to create routes for components `Home`, `Login`, `Signup` and `Posts`, first define these components as you normally would, then import them into your top component, and then nest them inside the `Container` component like so:
 
 ```
 ReactDOM.render((
@@ -53,4 +53,4 @@ Desklamp provides some helper methods to make changing views easy.
 We are adding error handling messages to help you debug.
 
 ### Misc
-A floor lamp is a desklamp if you put it on your desk.
+A floor lamp is a desk lamp if you put it on your desk.
