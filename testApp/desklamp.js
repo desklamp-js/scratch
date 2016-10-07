@@ -136,7 +136,6 @@ class Container extends React.Component {
       // or - this.changeView(startRoute);
     }
     // If navbar param is set to true we add navbar as the first children
-    console.log('navbaring',navbar)
     if (navbar) {
       this.setState({renderNav: navbar}); //CHANGE THIS#######
     }
@@ -164,9 +163,10 @@ class Container extends React.Component {
 
   changeView(view, newState) {
     // update appState only by copying
-    const appState = Object.assign({}, this.state.appState, newState);
+    const notAppState = Object.assign({}, this.state.appState, newState);
     // update appState on this.state
-    this.setState({ view: this.state.views[view], appState });
+    this.setState({appState: notAppState});
+        console.log('notAppstate',this.state.appState)
     window.location.hash = (`#/${view}`);
   }
 
@@ -177,7 +177,6 @@ class Container extends React.Component {
 
   render() {
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
-    console.log('render',this.state.renderNav)
     return (
       <div>
         {navBar}
