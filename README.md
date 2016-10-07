@@ -36,4 +36,7 @@ Unlike Redux, which constrains how you can interact with your application's stat
 
 The _appstate_ is available to your components and functions.
 
-`Desklamp.on` is the main function you will use to tell Desklamp about your application. This method takes three arguments, representing the initial state (must be an object), your update functions (must be an object), and a string representing the route you would like to be your initial view.
+`Desklamp.on` is the main function you will use to tell Desklamp about your application. This method takes three arguments, representing the initial state (must be an object), your update functions (must be an object), and a string representing the route you would like to be your initial view. This will declare your initial state, bind your customized functions to the _appstate_.
+
+The custom functions declared to Desklamp.on will become your _powers_ which are automatically passed to each one of your views. You can then pass them as props down to child components as selectively as you would like. The initial state will become your _state_, also available to all the routes you have set up in your `Container`.
+
