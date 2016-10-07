@@ -1,21 +1,27 @@
 import React from 'react';
 
-const Link = ({ view }) => {
+const Link = ({ view, tag }) => {
   return (
-    <a href={`#/${view.name}`} >{view.name}</a>
+    <a href={`#/${view}`} >{tag}</a>
   );
 };
 
-const Nav = ({ views }) => {
-  const viewArr = Object.keys(views).map(key => views[key]);
+const SyncLink = ({ view, func }) => {
   return (
-    <div className="nav">
-      {viewArr.map((view, index) => {
-        return (<Link key={index} view={view} />);
-      })}
-    </div>
+    <a onClick={func}>{view.name}</a>
   );
 };
+
+// const Nav = ({ views }) => {
+//   const viewArr = Object.keys(views).map(key => views[key]);
+//   return (
+//     <div className="nav">
+//       {viewArr.map((view, index) => {
+//         return (<Link key={index} view={view} />);
+//       })}
+//     </div>
+//   );
+// };
 
 const Desklamp = {};
 
@@ -24,13 +30,10 @@ class Container extends React.Component {
     super();
     this.state = {
       view: '',
-      renderNav: true,
+      renderNav: false,
       appState: {},
       views: {},
-      userFunctions: {
-        changeView: this.changeView,
-        routeLink: this.routeLink,
-      },
+      userFunctions: {},
     };
     // Array that stores the application history
     this.stateHistory = ['first_history'];
@@ -39,6 +42,7 @@ class Container extends React.Component {
     Desklamp.addFunc = this.addFuncs;
     // Binds routing and view functions
     this.changeView = this.changeView.bind(this);
+    Desklamp.changeView = this.changeView;
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
     // Adds updateState and showState funcs to Desklamp obj
@@ -104,10 +108,8 @@ class Container extends React.Component {
 
   // Keeps a point in time snapshot of the application state
   history(newState) {
-    console.log('current history - ', this.stateHistory);
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
-    console.log('new history - ', this.stateHistory);
   }
 
   // Initializes the default state, user functions, start route and navbar.
@@ -118,24 +120,25 @@ class Container extends React.Component {
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
-    if (typeof startRoute !== 'string' && startRoute !== undefined) {
+    if (typeof startRoute !== 'string' && startRoute !== undefined && startRoute !== null) {
       throw new TypeError('on(): takes a string as a third param which sets the default route');
     }
-    if (typeof navbar !== 'boolean' && navbar !== undefined) {
-      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
-    }
+    // if (typeof navbar !== 'boolean' && navbar !== undefined) {
+    //   throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+    // }
     // Update the state to passed in initial state
     this.updateState(initState);
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
     // If there is a startRoute param, update routes with it
     if (startRoute) {
-      this.state.view = startRoute;
+      this.state.view = startRoute; //change######
       // or - this.changeView(startRoute);
     }
     // If navbar param is set to true we add navbar as the first children
+    console.log('navbaring',navbar)
     if (navbar) {
-      this.Nav(true);
+      this.setState({renderNav: navbar}); //CHANGE THIS#######
     }
   }
 
@@ -173,10 +176,12 @@ class Container extends React.Component {
   }
 
   render() {
+    const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
+    console.log('render',this.state.renderNav)
     return (
       <div>
-        <Nav views={this.state.views} />
-        <this.state.view changeView={this.changeView} appState={this.state.appState} getMessages={this.getMessages} />
+        {navBar}
+        <this.state.view powers={this.state.userFunctions} state={this.state.appState} />
       </div>
     );
   }
