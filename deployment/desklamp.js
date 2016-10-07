@@ -183,9 +183,6 @@ class Container extends React.Component {
   }
 
   getMessages() {
-    if (!this.state.appState.messages) {
-      
-    }
     $.get('http://slack-server.elasticbeanstalk.com/messages', (data) => {
       const messages = { messages: data };
       Desklamp.changeView('Messages', messages);
