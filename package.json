@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
+    "server": "nodemon ./testApp/server.js",
     "build": "webpack",
     "test": "mocha --compilers js:babel-core/register  --recursive"
   },
@@ -30,9 +31,21 @@
     "react-hot-loader": "^3.0.0-beta.5",
     "sinon": "^1.17.6",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.16.1"
+    "webpack-dev-server": "^1.16.1",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "mongodb": "^2.2.8",
+    "mongoose": "^4.6.0",
+    "path": "^0.12.7",
+    "nodemon": "^1.10.2"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "cors": "^2.8.1",
+>>>>>>> 60d08eb7145db890cdf007a1ea26c762311b86f6
     "jquery": "^3.1.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
