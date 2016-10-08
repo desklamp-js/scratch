@@ -1,8 +1,9 @@
 import React from 'react';
 
+// how to make view the same name as the changed name in the RenderDOM
 const Link = ({ view, tag }) => {
   return (
-    <a href={`#/${view}`} >{tag}</a>
+    <a href={`#${view}`} >{tag}</a>
   );
 };
 
@@ -56,6 +57,9 @@ class Container extends React.Component {
     // Adds the on function to Desklamp obj
     this.on = this.on.bind(this);
     Desklamp.on = this.on;
+    // Allows the developer to use the componentWillMount on Container component
+    this.onLoad = this.onLoad.bind(this);
+    Desklamp.onLoad = this.onLoad;
   }
 
   componentWillMount() {
@@ -64,27 +68,40 @@ class Container extends React.Component {
       this.routeLink(pathstring.replace('#/', ''));
     };
     this.getRoutes();
+    this.onLoad();
+  }
+
+  // Runs all functions passed to onLoad
+  onLoad(...args) {
+    args.forEach((func) => {
+      func();
+    });
   }
 
   getRoutes(startRoute) {
     const newRoutes = {};
-    //if no starting route passed in, go get starting route from first child.
+    // if no starting route passed in, go get starting route from first child
     if (!startRoute) {
-      //if there are no children of container, default route is '/'
+      // if there are no children of container, default route is '/'
       if (!this.props.children){
         startRoute = '';
         throw new TypeError('Container must have children components in order to create Routes');
-      }
-      else{
+      } else {
         startRoute = this.props.children[0].type;
         this.props.children.forEach( (route) => {
-          newRoutes[route.type.name] = route.type;
-    });
+          if (typeof route.props.name === 'string') {
+            newRoutes[route.props.name] = route.type;
+          } else {
+            const routeName = route.type.name.toLowerCase();
+            newRoutes[routeName] = route.type;
+          }
+        });
       }
     }
 
     const newState = Object.assign({}, this.state.views, newRoutes);
-    window.location.hash = (`#/${this.props.children[0].type.name}`);
+    const routeName = this.props.children[0].type.name.toLowerCase();
+    window.location.hash = (`#/${routeName}`);
     this.setState({ views: newState, view: startRoute });
   }
 
@@ -162,11 +179,16 @@ class Container extends React.Component {
   }
 
   changeView(view, newState) {
+    if (typeof view !== 'string') {
+      throw new Error('changeView(): takes a string as a first parameter');
+    }
+    if (newState.constructor !== Object) {
+      throw new Error('changeView(): takes an object as a second parameter');
+    }
     // update appState only by copying
     const notAppState = Object.assign({}, this.state.appState, newState);
     // update appState on this.state
-    this.setState({appState: notAppState});
-        console.log('notAppstate',this.state.appState)
+    this.setState({ appState: notAppState });
     window.location.hash = (`#/${view}`);
   }
 

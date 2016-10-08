@@ -5,11 +5,11 @@ const Nav = () => {
   return (
     <div>
       <ul>
-        <Link view={'Home'} tag={'home'} />
-        <Link view={'CreatePost'} tag={'create-post'} />
-        <Link view={'Login'} tag={'login'} />
-        <Link view={'Posts'} tag={'posts'} />
-        <Link view={'Signup'} tag={'sign-up'} />
+        <Link view={'/not-home'} tag={'not-home'} />
+        <Link view={'/createpost'} tag={'create-post'} />
+        <Link view={'/login'} tag={'login'} />
+        <Link view={'/posts'} tag={'posts'} />
+        <Link view={'/signup'} tag={'sign-up'} />
       </ul>
     </div>
   );
