@@ -9,6 +9,7 @@ const Signup = ({ powers }) => {
 
     powers.signup(username, password);
   }
+  console.log('powers', powers)
   return (
     <div>
       <h1>This the Signup page</h1>
