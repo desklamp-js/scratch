@@ -5,7 +5,7 @@ const Nav = () => {
   return (
     <div>
       <ul>
-        <Link view={'/not-home'} tag={'home'} />
+        <Link view={'/not-home'} tag={'not-home'} />
         <Link view={'/createpost'} tag={'create-post'} />
         <Link view={'/login'} tag={'login'} />
         <Link view={'/posts'} tag={'posts'} />

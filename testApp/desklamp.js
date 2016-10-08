@@ -182,6 +182,9 @@ class Container extends React.Component {
     if (typeof view !== 'string') {
       throw new Error('changeView(): takes a string as a first parameter');
     }
+    if (newState.constructor !== Object) {
+      throw new Error('changeView(): takes an object as a second parameter');
+    }
     // update appState only by copying
     const notAppState = Object.assign({}, this.state.appState, newState);
     // update appState on this.state
