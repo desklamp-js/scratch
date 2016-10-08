@@ -1,17 +1,20 @@
 import React from 'react';
 
-const Posts = ({ state, powers }) => {
-
+const Posts = ({ posts }) => {
   return (
     <div>
       <h1>This the posts page</h1>
       <div>
-      {state.posts.map((message) => {
+      {posts.map((message) => {
         return message.body;
       })}
       </div>
     </div>
   );
+};
+
+Posts.defaultProps = {
+  posts: [],
 };
 
 export default Posts;
