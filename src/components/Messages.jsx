@@ -6,7 +6,6 @@ const Test = ({ messages }) => {
       {messages.map((message) => {
         return message.message;
       })}
-      
     </div>
   );
 };

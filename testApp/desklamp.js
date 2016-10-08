@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 // how to make view the same name as the changed name in the RenderDOM
 const Link = ({ view, tag }) => {
@@ -9,7 +10,7 @@ const Link = ({ view, tag }) => {
 
 const SyncLink = ({ view, func }) => {
   return (
-    <a onClick={func}>{view.name}</a>
+    <a onClick={func}>{view}</a>
   );
 };
 
@@ -20,6 +21,7 @@ const SyncLink = ({ view, func }) => {
 //       {viewArr.map((view, index) => {
 //         return (<Link key={index} view={view} />);
 //       })}
+//       <SyncLink view={views.Messages} func={getMessages} />
 //     </div>
 //   );
 // };
@@ -31,8 +33,9 @@ class Container extends React.Component {
     super();
     this.state = {
       view: '',
-      renderNav: false,
+      renderNav: '',
       appState: {},
+      routeStates: {},
       views: {},
       userFunctions: {},
     };
@@ -78,10 +81,10 @@ class Container extends React.Component {
     });
   }
 
-  getRoutes(startRoute) {
+  getRoutes() {
     const newRoutes = {};
+    let startRoute;
     // if no starting route passed in, go get starting route from first child
-    if (!startRoute) {
       // if there are no children of container, default route is '/'
       if (!this.props.children){
         startRoute = '';
@@ -97,15 +100,13 @@ class Container extends React.Component {
           }
         });
       }
-    }
-
     const newState = Object.assign({}, this.state.views, newRoutes);
     const routeName = this.props.children[0].type.name.toLowerCase();
     window.location.hash = (`#/${routeName}`);
     this.setState({ views: newState, view: startRoute });
   }
 
-  // Allows the developer to update the state of their application
+    // Allows the developer to update the state of their application
   updateState(newObj) {
     if (newObj.constructor === Object) {
       // Save old appState to history
@@ -118,44 +119,55 @@ class Container extends React.Component {
     }
   }
 
-  // Displays the current application state
+    // Displays the current application state
   showState() {
     return this.state.appState;
   }
 
-  // Keeps a point in time snapshot of the application state
+    // Keeps a point in time snapshot of the application state
   history(newState) {
+    console.log('current history - ', this.stateHistory);
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
+    console.log('new history - ', this.stateHistory);
   }
 
-  // Initializes the default state, user functions, start route and navbar.
-  on(initState, userFuncs, startRoute, navbar) {
+  // Initializes the default state, user functions, start route and navbar.  
+  on(initState, userFuncs, routeProps, navbar) {
     if (initState.constructor !== Object && initState !== undefined) {
       throw new TypeError('on(): takes an object as a first parameter representing initial state');
     }
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
-    if (typeof startRoute !== 'string' && startRoute !== undefined && startRoute !== null) {
+    if (routeProps.constructor !== Object && routeProps !== undefined) {
       throw new TypeError('on(): takes a string as a third param which sets the default route');
     }
-    // if (typeof navbar !== 'boolean' && navbar !== undefined) {
-    //   throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
-    // }
+    if (navbar.constructor !== Function && navbar !== undefined) {
+      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+    }
     // Update the state to passed in initial state
     this.updateState(initState);
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
-    // If there is a startRoute param, update routes with it
-    if (startRoute) {
-      this.state.view = startRoute; //change######
-      // or - this.changeView(startRoute);
+    // If there is a routeProps param, update routes with it
+    const propsUpdate = {};
+    if (routeProps) {
+      Object.keys(routeProps).forEach((key) => {
+        propsUpdate[key] = {};
+        Object.keys(routeProps[key]).forEach((arrKey) => {
+          routeProps[key][arrKey].forEach((item) => {
+            const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
+            propsUpdate[key][item] = this.state[pull][item];
+          });
+        });
+      });
     }
     // If navbar param is set to true we add navbar as the first children
-    if (navbar) {
-      this.setState({renderNav: navbar}); //CHANGE THIS#######
+    if (!navbar) {
+      navbar = undefined;
     }
+    this.setState({ routeStates: propsUpdate, renderNav: navbar });
   }
 
   addFuncs(input) {
@@ -167,14 +179,6 @@ class Container extends React.Component {
         throw new TypeError(`Your input to addFuncs contains ${key} which is not a function`);
       }
       this.state.userFunctions[key] = input[key].bind(this);
-    }
-  }
-
-  nav(nav) {
-    if (typeof nav === 'boolean') {
-      this.state.renderNav = nav;
-    } else {
-      this.state.nav = nav;
     }
   }
 
@@ -199,14 +203,17 @@ class Container extends React.Component {
 
   render() {
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
+    const inputs = this.state.routeStates[window.location.hash.replace('#/', '').toLowerCase()];
     return (
       <div>
         {navBar}
-        <this.state.view powers={this.state.userFunctions} state={this.state.appState} />
+        <this.state.view {...inputs} />
       </div>
     );
   }
 }
+
 export { Container };
 export { Desklamp };
 export { Link };
+export { SyncLink };

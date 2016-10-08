@@ -26,6 +26,13 @@ const initState = {
   userInfo: {},
 };
 
+const routeState = {
+  login: { state: ['username'], powers: ['login'] },
+  signup: {},
+  posts: {},
+  creatposts: {},
+};
+
 const funcs = {
   login: (username, password) => {
     $.post('http://localhost:3000/login', { username, password })
@@ -61,4 +68,4 @@ const funcs = {
   },
 };
 
-Desklamp.on(initState, funcs, null, Nav);
+Desklamp.on(initState, funcs, routeState, Nav);
