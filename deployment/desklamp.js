@@ -3,7 +3,11 @@ import $ from 'jquery';
 
 const Link = ({ view, tag }) => {
   return (
+<<<<<<< HEAD
     <a href={`#/${view}`}>{tag}</a>
+=======
+    <a href={`#/${view}`} >{tag}</a>
+>>>>>>> deploy
   );
 };
 
@@ -20,7 +24,10 @@ const SyncLink = ({ view, func }) => {
 //       {viewArr.map((view, index) => {
 //         return (<Link key={index} view={view} />);
 //       })}
+<<<<<<< HEAD
 //       <SyncLink view={views.Messages} func={getMessages} />
+=======
+>>>>>>> deploy
 //     </div>
 //   );
 // };
@@ -32,7 +39,7 @@ class Container extends React.Component {
     super();
     this.state = {
       view: '',
-      renderNav: true,
+      renderNav: false,
       appState: {},
       routeStates: {},
       views: {},
@@ -141,10 +148,8 @@ class Container extends React.Component {
 
     // Keeps a point in time snapshot of the application state
   history(newState) {
-    console.log('current history - ', this.stateHistory);
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
-    console.log('new history - ', this.stateHistory);
   }
 
   // Initializes the default state, user functions, start route and navbar.  
@@ -155,16 +160,21 @@ class Container extends React.Component {
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
+<<<<<<< HEAD
     if (routeProps.constructor !== Object && routeProps !== undefined) {
+=======
+    if (typeof startRoute !== 'string' && startRoute !== undefined && startRoute !== null) {
+>>>>>>> deploy
       throw new TypeError('on(): takes a string as a third param which sets the default route');
     }
-    if (typeof navbar !== 'boolean' && navbar !== undefined) {
-      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
-    }
+    // if (typeof navbar !== 'boolean' && navbar !== undefined) {
+    //   throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+    // }
     // Update the state to passed in initial state
     this.updateState(initState);
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
+<<<<<<< HEAD
     // If there is a routeProps param, update routes with it
     if (routeProps) {
       routeProps.keys((key) => {
@@ -176,17 +186,33 @@ class Container extends React.Component {
           });
         });
       });
+=======
+    // If there is a startRoute param, update routes with it
+    if (startRoute) {
+      this.state.view = startRoute; //change######
+      // or - this.changeView(startRoute);
+>>>>>>> deploy
     }
 
     // If navbar param is set to true we add navbar as the first children
+<<<<<<< HEAD
     console.log('navbaring', navbar);
     if (navbar) {
       this.setState({ renderNav: navbar }); // CHANGE THIS#######
+=======
+    console.log('navbaring',navbar)
+    if (navbar) {
+      this.setState({renderNav: navbar}); //CHANGE THIS#######
+>>>>>>> deploy
     }
   }
 
   render() {
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
+<<<<<<< HEAD
+=======
+    console.log('render',this.state.renderNav)
+>>>>>>> deploy
     return (
       <div>
         {navBar}
