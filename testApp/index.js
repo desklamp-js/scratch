@@ -3,12 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import Home from './components/Home'
-import Login from './components/Login'
-import Signup from './components/Signup'
-import Posts from './components/Posts'
-import CreatePost from './components/CreatePost'
-import Nav from './components/Nav'
+import Home from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Posts from './components/Posts';
+import CreatePost from './components/CreatePost';
+import Nav from './components/Nav';
 
 ReactDOM.render((
   <Container>
@@ -26,6 +26,13 @@ const initState = {
   userInfo: {},
 };
 
+const routeState = {
+  login: { state: ['username'], powers: ['login'] },
+  signup: {},
+  posts: {},
+  creatposts: {},
+};
+
 const funcs = {
   login: (username, password) => {
     $.post('http://localhost:3000/login', { username, password })
@@ -33,7 +40,7 @@ const funcs = {
       console.log('login data', data);
       $.get('http://localhost:3000/posts', (data) => {
         console.log('getting posts', data);
-        Desklamp.changeView('Posts',{ posts: data });
+        Desklamp.changeView('Posts', { posts: data });
       });
     })
     .fail((err) => {
@@ -46,7 +53,7 @@ const funcs = {
       console.log('signup data', data);
       $.get('http://localhost:3000/posts', (data) => {
         console.log('getting posts', data);
-        Desklamp.changeView('Posts',{ posts: data });
+        Desklamp.changeView('Posts', { posts: data });
       });
     })
     .fail((err) => {
@@ -61,4 +68,4 @@ const funcs = {
   },
 };
 
-Desklamp.on(initState, funcs, null, Nav);
+Desklamp.on(initState, funcs, routeState, Nav);

@@ -42,10 +42,7 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
-<<<<<<< HEAD
-=======
     "cors": "^2.8.1",
->>>>>>> 60d08eb7145db890cdf007a1ea26c762311b86f6
     "jquery": "^3.1.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
