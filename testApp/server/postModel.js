@@ -5,7 +5,6 @@ const postSchema = new Schema({
   user: {
     type: String,
     required: true,
-    unique: true,
   },
   title: {
     type: String,

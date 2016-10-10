@@ -3,34 +3,18 @@ import React from 'react';
 // Custom link component
 const Link = ({ view, tag }) => {
   return (
-<<<<<<< HEAD
     <a href={`#/${view}`} >{tag}</a>
   );
 };
 
-const SyncLink = ({ view, func }) => {
-  return (
-    <a onClick={func}>{view.name}</a>
-  );
-};
-
-// const Nav = ({ views }) => {
-//   const viewArr = Object.keys(views).map(key => views[key]);
+// const SyncLink = ({ view, func }) => {
 //   return (
-//     <div className="nav">
-//       {viewArr.map((view, index) => {
-//         return (<Link key={index} view={view} />);
-//       })}
-//     </div>
+//     <a onClick={func}>{view.name}</a>
 //   );
 // };
 
-=======
-    <a href={`#${view}`} >{tag}</a>
-  );
-};
+ 
 // Object that contains all functions
->>>>>>> bde304378a44d78bddf6daa78e772c64170e9d5f
 const Desklamp = {};
 
 class Container extends React.Component {
