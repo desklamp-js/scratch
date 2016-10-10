@@ -1,7 +1,9 @@
 import React from 'react';
 
+// Custom link component
 const Link = ({ view, tag }) => {
   return (
+<<<<<<< HEAD
     <a href={`#/${view}`} >{tag}</a>
   );
 };
@@ -23,6 +25,12 @@ const SyncLink = ({ view, func }) => {
 //   );
 // };
 
+=======
+    <a href={`#${view}`} >{tag}</a>
+  );
+};
+// Object that contains all functions
+>>>>>>> bde304378a44d78bddf6daa78e772c64170e9d5f
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -30,7 +38,7 @@ class Container extends React.Component {
     super();
     this.state = {
       view: '',
-      renderNav: false,
+      renderNav: '',
       appState: {},
       views: {},
       userFunctions: {},
@@ -56,16 +64,22 @@ class Container extends React.Component {
     // Adds the on function to Desklamp obj
     this.on = this.on.bind(this);
     Desklamp.on = this.on;
+    // Allows the developer to use the componentWillMount on Container component
+    this.onLoad = this.onLoad.bind(this);
+    Desklamp.onLoad = this.onLoad;
   }
 
   componentWillMount() {
+    // If the url hash changes, routing is triggered
     window.onhashchange = () => {
       const pathstring = location.hash;
       this.routeLink(pathstring.replace('#/', ''));
     };
     this.getRoutes();
+    this.onLoad();
   }
 
+<<<<<<< HEAD
   getRoutes(startRoute) {
     const newRoutes = {};
     //if no starting route passed in, go get starting route from first child.
@@ -85,6 +99,35 @@ class Container extends React.Component {
 
     const newState = Object.assign({}, this.state.views, newRoutes);
     window.location.hash = (`#/${this.props.children[0].type.name}`);
+=======
+  // Runs all functions passed to onLoad
+  onLoad(...args) {
+    args.forEach((func) => {
+      func();
+    });
+  }
+
+  getRoutes() {
+    const newRoutes = {};
+    let startRoute;
+
+    if (!this.props.children){
+      throw new TypeError('Container must have children components in order to create Routes');
+    } else {
+      startRoute = this.props.children[0].type;
+      this.props.children.forEach( (route) => {
+        if (typeof route.props.name === 'string') {
+          newRoutes[route.props.name] = route.type;
+        } else {
+          const routeName = route.type.name.toLowerCase();
+          newRoutes[routeName] = route.type;
+        }
+      });
+    }
+    const newState = Object.assign({}, this.state.views, newRoutes);
+    const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
+    window.location.hash = (`#/${routeName}`);
+>>>>>>> bde304378a44d78bddf6daa78e772c64170e9d5f
     this.setState({ views: newState, view: startRoute });
   }
 
@@ -113,33 +156,76 @@ class Container extends React.Component {
   }
 
   // Initializes the default state, user functions, start route and navbar.
-  on(initState, userFuncs, startRoute, navbar) {
+
+  on(initState, userFuncs, routeProps, navbar) {
+
     if (initState.constructor !== Object && initState !== undefined) {
       throw new TypeError('on(): takes an object as a first parameter representing initial state');
     }
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
-    if (typeof startRoute !== 'string' && startRoute !== undefined && startRoute !== null) {
+<
+    if (routeProps.constructor !== Object && routeProps !== undefined) {
+
       throw new TypeError('on(): takes a string as a third param which sets the default route');
     }
-    // if (typeof navbar !== 'boolean' && navbar !== undefined) {
-    //   throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
-    // }
+    if (navbar.constructor !== Function && navbar !== undefined) {
+      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+    }
     // Update the state to passed in initial state
     this.updateState(initState);
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
-    // If there is a startRoute param, update routes with it
-    if (startRoute) {
-      this.state.view = startRoute; //change######
-      // or - this.changeView(startRoute);
+
+    // If there is a routeProps param, update routes with it
+    const propsUpdate = {};
+    if (routeProps) {
+      Object.keys(routeProps).forEach((key) => {
+        propsUpdate[key] = {};
+        Object.keys(routeProps[key]).forEach((arrKey) => {
+          routeProps[key][arrKey].forEach((item) => {
+            const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
+            propsUpdate[key][item] = this.state[pull][item];
+          });
+        });
+      });
     }
     // If navbar param is set to true we add navbar as the first children
-    console.log('navbaring',navbar)
-    if (navbar) {
-      this.setState({renderNav: navbar}); //CHANGE THIS#######
+    if (!navbar) {
+      navbar = undefined;
     }
+    this.setState({ routeStates: propsUpdate, renderNav: navbar });
+  }
+
+  addFuncs(input) {
+    if (input.constructor !== Object) {
+      throw new TypeError('Input to addFuncs must be an object with methods that are functions');
+    }
+    for (let key in input) {
+      if (input[key].constructor !== Function) {
+        throw new TypeError(`Your input to addFuncs contains ${key} which is not a function`);
+      }
+      this.state.userFunctions[key] = input[key].bind(this);
+    }
+  }
+
+  changeView(view, newState) {
+    if (typeof view !== 'string') {
+      throw new Error('changeView(): takes a string as a first parameter');
+    }
+    if (newState.constructor !== Object) {
+      throw new Error('changeView(): takes an object as a second parameter');
+    }
+    // update appState only by copying
+    const notAppState = Object.assign({}, this.state.appState, newState);
+    // update appState on this.state
+    this.setState({ appState: notAppState });
+    window.location.hash = (`#/${view}`);
+  }
+
+  routeLink(view) {
+    this.setState({ view: this.state.views[view] }); // TODO let Dev pass in variable for url string
   }
 
   addFuncs(input) {
@@ -177,11 +263,11 @@ class Container extends React.Component {
 
   render() {
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
-    console.log('render',this.state.renderNav)
+    const inputs = this.state.routeStates[window.location.hash.replace('#/', '').toLowerCase()];
     return (
       <div>
         {navBar}
-        <this.state.view powers={this.state.userFunctions} state={this.state.appState} />
+        <this.state.view state={this.state.appState} powers={this.state.userFunctions} />
       </div>
     );
   }
@@ -189,5 +275,3 @@ class Container extends React.Component {
 export { Container };
 export { Desklamp };
 export { Link };
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Status Help

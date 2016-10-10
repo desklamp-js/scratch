@@ -10,6 +10,7 @@ import Posts from './components/Posts';
 import CreatePost from './components/CreatePost';
 import Nav from './components/Nav';
 
+
 ReactDOM.render((
   <Container>
     <Home name="not-home" />
@@ -19,6 +20,20 @@ ReactDOM.render((
     <CreatePost />
   </Container>
 ), document.getElementById('app'));
+
+// FOR TODD
+// let todd = [Home, Login, Signup, Posts, CreatePost];
+// const cust = 'note-home'
+// ReactDOM.render((
+//   <Container>
+//     {todd.map((route) => {
+//       if (route === Home) {
+//         return React.createElement(route, {name:'not-home'});
+//       }
+//       return React.createElement(route, null);
+//     })}
+//   </Container>
+// ), document.getElementById('app'));
 
 const initState = {
   username: '',
