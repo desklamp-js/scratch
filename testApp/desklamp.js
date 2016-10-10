@@ -8,11 +8,13 @@ const Link = ({ view, tag }) => {
   );
 };
 
-const SyncLink = ({ view, func }) => {
-  return (
-    <a onClick={func}>{view}</a>
-  );
-};
+// allow dev to pass anon func with async inside which we run then change
+// view for them
+// const aSyncLink = ({ view, func }) => {
+//   return (
+//     <a onClick={func}>{view}</a>
+//   );
+// };
 
 // const Nav = ({ views }) => {
 //   const viewArr = Object.keys(views).map(key => views[key]);
@@ -86,22 +88,22 @@ class Container extends React.Component {
     let startRoute;
     // if no starting route passed in, go get starting route from first child
       // if there are no children of container, default route is '/'
-      if (!this.props.children){
-        startRoute = '';
-        throw new TypeError('Container must have children components in order to create Routes');
-      } else {
-        startRoute = this.props.children[0].type;
-        this.props.children.forEach( (route) => {
-          if (typeof route.props.name === 'string') {
-            newRoutes[route.props.name] = route.type;
-          } else {
-            const routeName = route.type.name.toLowerCase();
-            newRoutes[routeName] = route.type;
-          }
-        });
-      }
+    if (!this.props.children){
+      startRoute = '';
+      throw new TypeError('Container must have children components in order to create Routes');
+    } else {
+      startRoute = this.props.children[0].type;
+      this.props.children.forEach( (route) => {
+        if (typeof route.props.name === 'string') {
+          newRoutes[route.props.name] = route.type;
+        } else {
+          const routeName = route.type.name.toLowerCase();
+          newRoutes[routeName] = route.type;
+        }
+      });
+    }
     const newState = Object.assign({}, this.state.views, newRoutes);
-    const routeName = this.props.children[0].type.name.toLowerCase();
+    const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
     window.location.hash = (`#/${routeName}`);
     this.setState({ views: newState, view: startRoute });
   }
@@ -126,13 +128,11 @@ class Container extends React.Component {
 
     // Keeps a point in time snapshot of the application state
   history(newState) {
-    console.log('current history - ', this.stateHistory);
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
-    console.log('new history - ', this.stateHistory);
   }
 
-  // Initializes the default state, user functions, start route and navbar.  
+  // Initializes the default state, user functions, start route and navbar.
   on(initState, userFuncs, routeProps, navbar) {
     if (initState.constructor !== Object && initState !== undefined) {
       throw new TypeError('on(): takes an object as a first parameter representing initial state');
@@ -207,7 +207,7 @@ class Container extends React.Component {
     return (
       <div>
         {navBar}
-        <this.state.view {...inputs} />
+        <this.state.view state={this.state.appState} powers={this.state.userFunctions} />
       </div>
     );
   }
@@ -216,4 +216,4 @@ class Container extends React.Component {
 export { Container };
 export { Desklamp };
 export { Link };
-export { SyncLink };
+// export { SyncLink };
