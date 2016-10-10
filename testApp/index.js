@@ -12,11 +12,11 @@ import Nav from './components/Nav';
 
 ReactDOM.render((
   <Container>
-    <Home name="not-home" />
+    <Home />
     <Login />
     <Signup />
-    <Posts />
-    <CreatePost />
+    <Posts locked="true" redir="home" />
+    <CreatePost locked="true" redir="home" />
   </Container>
 ), document.getElementById('app'));
 
