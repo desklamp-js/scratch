@@ -34,8 +34,8 @@ ReactDOM.render((
 
 ## State Container
 
-Similarly to the popular [Redux library](https://github.com/reactjs/redux), Desklamp allows you to keep your state in a single object which we call _appstate_. 
-Unlike Redux, which constrains how you can interact with your application's state using actions and reducers, Desklamp gives you many options for state control. ~~Go nuts.~~
+Desklamp allows you to keep your state in a single object which we call _appstate_. 
+Desklamp gives you many options for state control. 
 
 The _appstate_ is available to your components and functions.
 
@@ -48,6 +48,8 @@ The custom functions declared to Desklamp.on will become your _powers_ which are
 Desklamp provides some helper methods to make changing views easy.
 
 `Desklamp.changeView(viewname, change_to_state)` takes a `viewname` as a string, corresponding to the name of your view component, and an object `change_to_state` representing any state properties that need to be updated.
+
+## Built in Components
 
 ## Debugging
 We are adding error handling messages to help you debug.

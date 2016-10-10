@@ -3,15 +3,14 @@ import { Link } from '../desklamp';
 
 const Nav = () => {
   return (
-    <div>
+    <nav className="nav">
       <ul>
-        <Link view={'/not-home'} tag={'not-home'} />
-        <Link view={'/createpost'} tag={'create-post'} />
-        <Link view={'/login'} tag={'login'} />
-        <Link view={'/posts'} tag={'posts'} />
-        <Link view={'/signup'} tag={'sign-up'} />
+        <li><Link view={'/not-home'} tag={'not-home'} /></li>
+        <li><Link view={'/login'} tag={'login'} /></li>
+        <li><Link view={'/posts'} tag={'posts'} /></li>
+        <li><Link view={'/signup'} tag={'sign-up'} /></li>
       </ul>
-    </div>
+    </nav>
   );
 };
 
