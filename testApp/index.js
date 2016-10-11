@@ -1,4 +1,4 @@
-import { Desklamp, Container } from './desklamp';
+import { Desklamp, Container } from 'desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
@@ -10,10 +10,9 @@ import Posts from './components/Posts';
 import CreatePost from './components/CreatePost';
 import Nav from './components/Nav';
 
-
 ReactDOM.render((
   <Container>
-    <Home />
+    <Home name="not-home" />
     <Login />
     <Signup />
     <Posts locked="true" redir="home" />
@@ -83,4 +82,4 @@ const funcs = {
   },
 };
 
-Desklamp.on(initState, funcs, routeState, Nav);
+Desklamp.on(initState, funcs, Nav);
