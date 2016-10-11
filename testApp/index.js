@@ -3,34 +3,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import Home from './components/Home';
 import Login from './components/Login';
-import Signup from './components/Signup';
 import Posts from './components/Posts';
-import CreatePost from './components/CreatePost';
 import Nav from './components/Nav';
+import Home from './components/Home';
 
 
 ReactDOM.render((
   <Container>
+    <Home />
     <Login name="new-user-page" />
     <Posts />
   </Container>
 ), document.getElementById('app'));
-
-// FOR TODD
-// let todd = [Home, Login, Signup, Posts, CreatePost];
-// const cust = 'note-home'
-// ReactDOM.render((
-//   <Container>
-//     {todd.map((route) => {
-//       if (route === Home) {
-//         return React.createElement(route, {name:'not-home'});
-//       }
-//       return React.createElement(route, null);
-//     })}
-//   </Container>
-// ), document.getElementById('app'));
 
 const initState = {
   username: '',
@@ -41,34 +26,17 @@ const initState = {
 const funcs = {
   login: (username, password) => {
     $.post('http://localhost:3000/login', { username, password })
-    .done((data) => {
-      console.log('login data', data);
-      $.get('http://localhost:3000/posts', (data) => {
-        console.log('getting posts', data);
-        Desklamp.changeView('posts', { posts: data });
+    .done((userData) => {
+      $.get('http://localhost:3000/posts', (postsData) => {
+        Desklamp.changeView('posts', {
+          username: userData.username,
+          posts: postsData,
+          userInfo: userData.info,
+        });
       });
     })
     .fail((err) => {
-      console.log('Error on login post req', err);
-    });
-  },
-  signup: (username, password) => {
-    $.post('http://localhost:3000/signup', { username, password })
-    .done((data) => {
-      console.log('signup data', data);
-      $.get('http://localhost:3000/posts', (data) => {
-        console.log('getting posts', data);
-        Desklamp.changeView('posts', { posts: data });
-      });
-    })
-    .fail((err) => {
-      console.log('Error on login post req', err);
-    });
-  },
-  createPost: (post) => {
-    $.post('http://localhost:3000/newPost', { post }, (data) => {
-      console.log('Successful post creation!');
-      Desklamp.changeView('posts', { posts: data.posts });
+      return err;
     });
   },
 };

@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Custom link component
 const Link = ({ view, tag }) => {
   return (
@@ -143,7 +145,7 @@ class Container extends React.Component {
     if (!navbar) {
       navbar = undefined;
     }
-    this.setState({ routeStates: propsUpdate, renderNav: navbar });
+    this.setState({ renderNav: navbar });
   }
 
   addFuncs(input) {
