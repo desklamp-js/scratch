@@ -4,7 +4,7 @@ const path = require('path');
 const PATHS = {
   app: './testApp/index.js',
   html: './testApp/index.html',
-  dist: path.join(__dirname, 'dist')
+  dist: path.join(__dirname, 'dist'),
 };
 
 module.exports = {
