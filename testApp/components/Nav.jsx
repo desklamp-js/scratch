@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../desklamp';
+import { Link } from 'desklamp';
 
 const Nav = () => {
   return (
