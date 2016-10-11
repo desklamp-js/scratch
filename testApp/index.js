@@ -20,31 +20,10 @@ ReactDOM.render((
   </Container>
 ), document.getElementById('app'));
 
-// FOR TODD
-// let todd = [Home, Login, Signup, Posts, CreatePost];
-// const cust = 'note-home'
-// ReactDOM.render((
-//   <Container>
-//     {todd.map((route) => {
-//       if (route === Home) {
-//         return React.createElement(route, {name:'not-home'});
-//       }
-//       return React.createElement(route, null);
-//     })}
-//   </Container>
-// ), document.getElementById('app'));
-
 const initState = {
   username: '',
   posts: [],
   userInfo: {},
-};
-
-const routeState = {
-  login: { state: ['username'], powers: ['login'] },
-  signup: {},
-  posts: {},
-  creatposts: {},
 };
 
 const funcs = {
