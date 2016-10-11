@@ -1,4 +1,4 @@
-import { Desklamp, Container } from './desklamp';
+import { Desklamp, Container } from 'desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
@@ -13,11 +13,8 @@ import Nav from './components/Nav';
 
 ReactDOM.render((
   <Container>
-    <Home name="not-home" />
-    <Login />
-    <Signup />
+    <Login name="new-user-page" />
     <Posts />
-    <CreatePost />
   </Container>
 ), document.getElementById('app'));
 
@@ -39,13 +36,6 @@ const initState = {
   username: '',
   posts: [],
   userInfo: {},
-};
-
-const routeState = {
-  login: { state: ['username'], powers: ['login'] },
-  signup: {},
-  posts: {},
-  creatposts: {},
 };
 
 const funcs = {
@@ -83,4 +73,4 @@ const funcs = {
   },
 };
 
-Desklamp.on(initState, funcs, routeState, Nav);
+Desklamp.on(initState, funcs, Nav);

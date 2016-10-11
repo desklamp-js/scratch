@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link } from '../desklamp';
+import { Link } from 'desklamp';
 
 const Nav = () => {
   return (
     <div>
       <ul>
-        <Link view={'/not-home'} tag={'not-home'} />
-        <Link view={'/createpost'} tag={'create-post'} />
-        <Link view={'/login'} tag={'login'} />
+        <Link view={'/new-user-page'} tag={'new user?'} />
         <Link view={'/posts'} tag={'posts'} />
-        <Link view={'/signup'} tag={'sign-up'} />
       </ul>
     </div>
   );

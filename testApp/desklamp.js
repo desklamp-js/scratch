@@ -1,33 +1,10 @@
-import React from 'react';
-import $ from 'jquery';
-
-// how to make view the same name as the changed name in the RenderDOM
+// Custom link component
 const Link = ({ view, tag }) => {
   return (
     <a href={`#${view}`} >{tag}</a>
   );
 };
-
-// allow dev to pass anon func with async inside which we run then change
-// view for them
-// const aSyncLink = ({ view, func }) => {
-//   return (
-//     <a onClick={func}>{view}</a>
-//   );
-// };
-
-// const Nav = ({ views }) => {
-//   const viewArr = Object.keys(views).map(key => views[key]);
-//   return (
-//     <div className="nav">
-//       {viewArr.map((view, index) => {
-//         return (<Link key={index} view={view} />);
-//       })}
-//       <SyncLink view={views.Messages} func={getMessages} />
-//     </div>
-//   );
-// };
-
+// Object that contains all functions
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -68,6 +45,7 @@ class Container extends React.Component {
   }
 
   componentWillMount() {
+    // If the url hash changes, routing is triggered
     window.onhashchange = () => {
       const pathstring = location.hash;
       this.routeLink(pathstring.replace('#/', ''));
@@ -86,10 +64,8 @@ class Container extends React.Component {
   getRoutes() {
     const newRoutes = {};
     let startRoute;
-    // if no starting route passed in, go get starting route from first child
-      // if there are no children of container, default route is '/'
+
     if (!this.props.children){
-      startRoute = '';
       throw new TypeError('Container must have children components in order to create Routes');
     } else {
       startRoute = this.props.children[0].type;
@@ -108,7 +84,7 @@ class Container extends React.Component {
     this.setState({ views: newState, view: startRoute });
   }
 
-    // Allows the developer to update the state of their application
+  // Allows the developer to update the state of their application
   updateState(newObj) {
     if (newObj.constructor === Object) {
       // Save old appState to history
@@ -121,28 +97,28 @@ class Container extends React.Component {
     }
   }
 
-    // Displays the current application state
+  // Displays the current application state
   showState() {
     return this.state.appState;
   }
 
-    // Keeps a point in time snapshot of the application state
+  // Keeps a point in time snapshot of the application state
   history(newState) {
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
   }
 
   // Initializes the default state, user functions, start route and navbar.
-  on(initState, userFuncs, routeProps, navbar) {
+  on(initState, userFuncs, navbar) {
     if (initState.constructor !== Object && initState !== undefined) {
       throw new TypeError('on(): takes an object as a first parameter representing initial state');
     }
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
-    if (routeProps.constructor !== Object && routeProps !== undefined) {
-      throw new TypeError('on(): takes a string as a third param which sets the default route');
-    }
+    // if (routeProps.constructor !== Object && routeProps !== undefined) {
+    //   throw new TypeError('on(): takes a string as a third param which sets the default route');
+    // }
     if (navbar.constructor !== Function && navbar !== undefined) {
       throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
     }
@@ -151,18 +127,18 @@ class Container extends React.Component {
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
     // If there is a routeProps param, update routes with it
-    const propsUpdate = {};
-    if (routeProps) {
-      Object.keys(routeProps).forEach((key) => {
-        propsUpdate[key] = {};
-        Object.keys(routeProps[key]).forEach((arrKey) => {
-          routeProps[key][arrKey].forEach((item) => {
-            const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
-            propsUpdate[key][item] = this.state[pull][item];
-          });
-        });
-      });
-    }
+    // const propsUpdate = {};
+    // if (routeProps) {
+    //   Object.keys(routeProps).forEach((key) => {
+    //     propsUpdate[key] = {};
+    //     Object.keys(routeProps[key]).forEach((arrKey) => {
+    //       routeProps[key][arrKey].forEach((item) => {
+    //         const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
+    //         propsUpdate[key][item] = this.state[pull][item];
+    //       });
+    //     });
+    //   });
+    // }
     // If navbar param is set to true we add navbar as the first children
     if (!navbar) {
       navbar = undefined;
@@ -197,8 +173,7 @@ class Container extends React.Component {
   }
 
   routeLink(view) {
-    // window.location.hash = (`#/${view}`); // now we're setting this in Link component
-    this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+    this.setState({ view: this.state.views[view] }); // TODO let Dev pass in variable for url string
   }
 
   render() {
@@ -216,4 +191,3 @@ class Container extends React.Component {
 export { Container };
 export { Desklamp };
 export { Link };
-// export { SyncLink };
