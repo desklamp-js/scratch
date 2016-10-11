@@ -1,11 +1,32 @@
 import React from 'react';
-
-// Custom link component
+// how to make view the same name as the changed name in the RenderDOM
 const Link = ({ view, tag }) => {
   return (
     <a href={`#${view}`} >{tag}</a>
   );
 };
+// Object that contains all functions
+
+// allow dev to pass anon func with async inside which we run then change
+// view for them
+// const aSyncLink = ({ view, func }) => {
+//   return (
+//     <a onClick={func}>{view}</a>
+//   );
+// };
+
+// const Nav = ({ views }) => {
+//   const viewArr = Object.keys(views).map(key => views[key]);
+//   return (
+//     <div className="nav">
+//       {viewArr.map((view, index) => {
+//         return (<Link key={index} view={view} />);
+//       })}
+//       <SyncLink view={views.Messages} func={getMessages} />
+//     </div>
+//   );
+// };
+
 // Object that contains all functions
 const Desklamp = {};
 
@@ -21,7 +42,7 @@ class Container extends React.Component {
       userFunctions: {},
     };
     // Array that stores the application history
-    this.stateHistory = ['first_history'];
+    this.stateHistory = [];
     // Adds addFuncs control to the Desklamp obj
     this.addFuncs = this.addFuncs.bind(this);
     Desklamp.addFunc = this.addFuncs;
@@ -122,7 +143,7 @@ class Container extends React.Component {
     //   throw new TypeError('on(): takes a string as a third param which sets the default route');
     // }
     if (navbar.constructor !== Function && navbar !== undefined) {
-      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+      throw new TypeError('on(): takes a boolean as a third param; true if you want our navbar');
     }
     // Update the state to passed in initial state
     this.updateState(initState);
@@ -141,6 +162,19 @@ class Container extends React.Component {
     //     });
     //   });
     // }
+    // If there is a routeProps param, update routes with it
+    const propsUpdate = {};
+    if (routeProps) {
+      Object.keys(routeProps).forEach((key) => {
+        propsUpdate[key] = {};
+        Object.keys(routeProps[key]).forEach((arrKey) => {
+          routeProps[key][arrKey].forEach((item) => {
+            const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
+            propsUpdate[key][item] = this.state[pull][item];
+          });
+        });
+      });
+    }
     // If navbar param is set to true we add navbar as the first children
     if (!navbar) {
       navbar = undefined;
@@ -180,7 +214,6 @@ class Container extends React.Component {
 
   render() {
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
-    const inputs = this.state.routeStates[window.location.hash.replace('#/', '').toLowerCase()];
     return (
       <div>
         {navBar}
