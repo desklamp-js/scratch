@@ -1,14 +1,20 @@
 import React from 'react';
 
-const Posts = ({ posts }) => {
+const Posts = ({ state }) => {
   return (
-    <div>
+    <div className="container">
       <h1>This the posts page</h1>
-      <div>
-      {posts.map((message) => {
-        return message.body;
-      })}
-      </div>
+      
+        {state.posts.map((message) => {
+          return (
+          [<div className="posts">
+            <h3> {message.title}</h3>
+            <div>{message.body}</div>
+            </div>
+          ]
+          );
+        })}
+      
     </div>
   );
 };

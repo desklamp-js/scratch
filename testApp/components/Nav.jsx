@@ -3,12 +3,12 @@ import { Link } from 'desklamp';
 
 const Nav = () => {
   return (
-    <div>
+    <nav className="nav">
       <ul>
         <Link view={'/new-user-page'} tag={'new user?'} />
         <Link view={'/posts'} tag={'posts'} />
       </ul>
-    </div>
+    </nav>
   );
 };
 
