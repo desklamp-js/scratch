@@ -1,33 +1,25 @@
 import React from 'react';
+import { Desklamp, Container } from 'desklamp';
 
-const Login = ({ powers }) => {
-  function postThisShit(e) {
+const Login = ({ powers, state }) => {
+  function postIt(e) {
     e.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    powers.login(username, password);
+    const post = 'post3';
+    const newPosts = [...state.posts, post];
+    Desklamp.updateState({ posts: newPosts });
   }
   return (
     <div className="container">
       <h1>This the Login page</h1>
       <br />
-      <form onSubmit={postThisShit} >
-        <div className="form-group">
+      <form onSubmit={postIt} >
+        <input id="username" type="text" placeholder="username" />
+        <label htmlFor="username" className="control-label">Username</label>
 
-          <input id="username" type="text" placeholder="lamp"/>
-          <label htmlFor="username" className="control-label">Username</label>
-          <i className="bar"></i>
-        </div>
-        <div className="form-group">
-          <input id="password" type="password" placeholder="desklamp"/>
-          <label htmlFor="password" className="control-label" >Password</label>
-          <i className="bar"></i>
-        </div>
-        <div className="button-container">
-          <button type="submit" className="button"><span>Submit</span></button>
-        </div>
+        <input id="password" type="password" placeholder="desklamp" />
+        <label htmlFor="password" className="control-label" >Password</label>
+
+        <button type="submit" className="button"><span>Submit</span></button>
       </form>
     </div>
   );

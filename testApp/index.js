@@ -19,25 +19,32 @@ ReactDOM.render((
 
 const initState = {
   username: '',
-  posts: [],
+  posts: ['post', 'post2'],
   userInfo: {},
 };
 
 const funcs = {
-  login: (username, password) => {
-    $.post('http://localhost:3000/login', { username, password })
-    .done((userData) => {
-      $.get('http://localhost:3000/posts', (postsData) => {
-        Desklamp.changeView('posts', {
-          username: userData.username,
-          posts: postsData,
-          userInfo: userData.info,
-        });
-      });
-    })
-    .fail((err) => {
-      return err;
-    });
+  login: (e) => {
+    e.preventDefault();
+    console.log('e',e);
+    const post = 'post3';
+    const newPosts = [...Desklamp.showState().posts, post];
+    // or [].concat(state.posts), then push post into it.
+    // then call
+    Desklamp.updateState({ posts: newPosts });
+    // $.post('http://localhost:3000/login', { username, password })
+    // .done((userData) => {
+    //   $.get('http://localhost:3000/posts', (postsData) => {
+    //     Desklamp.changeView('posts', {
+    //       username: userData.username,
+    //       posts: postsData,
+    //       userInfo: userData.info,
+    //     });
+    //   });
+    // })
+    // .fail((err) => {
+    //   return err;
+    // });
   },
 };
 
