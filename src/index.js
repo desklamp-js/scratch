@@ -1,24 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute } from 'react-router';
-import { Provider } from 'react-redux';
-
-import Nav from './components/Nav';
-import Home from './components/Home';
+import { Container, Desklamp } from '../deployment/typescript/desklamp';
 import Login from './components/Login';
 import Profile from './components/Profile';
-
-import store, { history } from './redux/store';
-import Wrapper from './redux/wrapper';
+import Messages from './components/Messages';
 
 ReactDOM.render((
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Wrapper}>
-        <IndexRoute component={Home} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/login" component={Login} />
-      </Route>
-    </Router>
-  </Provider>
+  <Container>
+    <Login />
+    <Profile />
+    <Messages />
+  </Container>
 ), document.getElementById('container'));
+
+Desklamp.on("hi", {})
