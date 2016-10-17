@@ -1,18 +1,19 @@
 import React from 'react';
-import { Desklamp, Container } from 'desklamp';
 
-const Login = ({ powers, state }) => {
-  function postIt(e) {
+const Login = ({ powers }) => {
+  function postThisShit(e) {
     e.preventDefault();
-    const post = 'post3';
-    const newPosts = [...state.posts, post];
-    Desklamp.updateState({ posts: newPosts });
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    powers.login(username, password);
   }
   return (
     <div className="container">
       <h1>This the Login page</h1>
       <br />
-      <form onSubmit={postIt} >
+      <form onSubmit={postThisShit} >
         <input id="username" type="text" placeholder="username" />
         <label htmlFor="username" className="control-label">Username</label>
 

@@ -9,17 +9,12 @@ import Nav from './components/Nav';
 import Home from './components/Home';
 import Signup from './components/Signup';
 
-
 ReactDOM.render((
   <Container>
-    <Home>
-      <Signup name="not-signup">
-        <Posts name="not-posts" />
-      </Signup>
-      <Nav />
-    </Home>
-    <Login name="new-user-page" />
-    <Posts />
+    <Home name="not-home" />
+    <Login />
+    <Signup />
+    <Posts locked="true" redir="home" />
   </Container>
 ), document.getElementById('app'));
 
