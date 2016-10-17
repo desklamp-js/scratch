@@ -1,4 +1,4 @@
-import { Desklamp, Container } from 'desklamp';
+import { Desklamp, Container } from './desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
@@ -7,11 +7,17 @@ import Login from './components/Login';
 import Posts from './components/Posts';
 import Nav from './components/Nav';
 import Home from './components/Home';
+import Signup from './components/Signup';
 
 
 ReactDOM.render((
   <Container>
-    <Home />
+    <Home>
+      <Signup name="not-signup">
+        <Posts name="not-posts" />
+      </Signup>
+      <Nav />
+    </Home>
     <Login name="new-user-page" />
     <Posts />
   </Container>

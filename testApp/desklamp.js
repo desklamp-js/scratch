@@ -5,29 +5,7 @@ const Link = ({ view, tag }) => {
     <a href={`#${view}`} >{tag}</a>
   );
 };
-// Object that contains all functions
 
-// allow dev to pass anon func with async inside which we run then change
-// view for them
-// const aSyncLink = ({ view, func }) => {
-//   return (
-//     <a onClick={func}>{view}</a>
-//   );
-// };
-
-// const Nav = ({ views }) => {
-//   const viewArr = Object.keys(views).map(key => views[key]);
-//   return (
-//     <div className="nav">
-//       {viewArr.map((view, index) => {
-//         return (<Link key={index} view={view} />);
-//       })}
-//       <SyncLink view={views.Messages} func={getMessages} />
-//     </div>
-//   );
-// };
-
-// Object that contains all functions
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -68,10 +46,9 @@ class Container extends React.Component {
   }
 
   componentWillMount() {
-    // If the url hash changes, routing is triggered
     window.onhashchange = () => {
       const pathstring = location.hash;
-      this.routeLink(pathstring.replace('#/', ''));
+      this.routeLink(pathstring.replace('#', ''));
     };
     this.getRoutes();
     this.onLoad();
@@ -87,27 +64,62 @@ class Container extends React.Component {
   getRoutes() {
     const newRoutes = {};
     let startRoute;
-
-    if (!this.props.children){
+    // if no starting route passed in, go get starting route from first child
+      // if there are no children of container, default route is '/'
+    if (!this.props.children) {
+      startRoute = '';
       throw new TypeError('Container must have children components in order to create Routes');
     } else {
       startRoute = this.props.children[0].type;
       this.props.children.forEach( (route) => {
-        if (typeof route.props.name === 'string') {
-          newRoutes[route.props.name] = route.type;
+        const routeName = '';
+        if (route.props.children) {
+          addChildrenRoutes(routeName, route);
         } else {
-          const routeName = route.type.name.toLowerCase();
-          newRoutes[routeName] = route.type;
+          if (typeof route.props.name === 'string') {
+            newRoutes[`/${route.props.name}`] = route.type;
+          } else {
+            const routeName = route.type.name.toLowerCase();
+            newRoutes[`/${routeName}`] = route.type;
+          }
+        }
+
+        function addChildrenRoutes(topString, currentChild) {
+          let name = 'type';
+          if (typeof currentChild.props.name === 'string') {
+            name = 'props';
+          }
+
+          const childRouteName = topString += `/${currentChild[name].name.toLowerCase()}`;
+
+          newRoutes[childRouteName] = currentChild.type;
+
+          if (currentChild.props.children) {
+            for (let i = 0; i < currentChild.props.children.length; i++) {
+              let tempRouteName = childRouteName;
+              const currChild = currentChild.props.children[i];
+              let otherName = 'type';
+              if (typeof currChild.props.name === 'string') {
+                otherName = 'props';
+              }
+              const newRouteName = tempRouteName += `/${currChild[otherName].name.toLowerCase()}`;
+              newRoutes[newRouteName] = currChild.type;
+              if (currChild.props.children) {
+                addChildrenRoutes(tempRouteName, currChild.props.children);
+              }
+            }
+          }
         }
       });
     }
+    console.log(newRoutes);
     const newState = Object.assign({}, this.state.views, newRoutes);
     const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
     window.location.hash = (`#/${routeName}`);
     this.setState({ views: newState, view: startRoute });
   }
 
-  // Allows the developer to update the state of their application
+    // Allows the developer to update the state of their application
   updateState(newObj) {
     if (newObj.constructor === Object) {
       // Save old appState to history
@@ -120,12 +132,12 @@ class Container extends React.Component {
     }
   }
 
-  // Displays the current application state
+    // Displays the current application state
   showState() {
     return this.state.appState;
   }
 
-  // Keeps a point in time snapshot of the application state
+    // Keeps a point in time snapshot of the application state
   history(newState) {
     const oldHistory = this.stateHistory;
     this.stateHistory = [...oldHistory, newState];
@@ -139,42 +151,13 @@ class Container extends React.Component {
     if (userFuncs.constructor !== Object && userFuncs !== undefined) {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
-    // if (routeProps.constructor !== Object && routeProps !== undefined) {
-    //   throw new TypeError('on(): takes a string as a third param which sets the default route');
-    // }
     if (navbar.constructor !== Function && navbar !== undefined) {
-      throw new TypeError('on(): takes a boolean as a third param; true if you want our navbar');
+      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
     }
     // Update the state to passed in initial state
     this.updateState(initState);
     // Add userFuncs to the userFunctions object
     this.addFuncs(userFuncs);
-    // If there is a routeProps param, update routes with it
-    // const propsUpdate = {};
-    // if (routeProps) {
-    //   Object.keys(routeProps).forEach((key) => {
-    //     propsUpdate[key] = {};
-    //     Object.keys(routeProps[key]).forEach((arrKey) => {
-    //       routeProps[key][arrKey].forEach((item) => {
-    //         const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
-    //         propsUpdate[key][item] = this.state[pull][item];
-    //       });
-    //     });
-    //   });
-    // }
-    // If there is a routeProps param, update routes with it
-    const propsUpdate = {};
-    if (routeProps) {
-      Object.keys(routeProps).forEach((key) => {
-        propsUpdate[key] = {};
-        Object.keys(routeProps[key]).forEach((arrKey) => {
-          routeProps[key][arrKey].forEach((item) => {
-            const pull = (arrKey === 'state') ? 'appState' : 'userFunctions';
-            propsUpdate[key][item] = this.state[pull][item];
-          });
-        });
-      });
-    }
     // If navbar param is set to true we add navbar as the first children
     if (!navbar) {
       navbar = undefined;
@@ -209,7 +192,8 @@ class Container extends React.Component {
   }
 
   routeLink(view) {
-    this.setState({ view: this.state.views[view] }); // TODO let Dev pass in variable for url string
+    // window.location.hash = (`#/${view}`); // now we're setting this in Link component
+    this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
   }
 
   render() {
