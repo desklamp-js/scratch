@@ -50,6 +50,10 @@ class Container extends React.Component {
     // Allows the developer to use the componentWillMount on Container component
     this.onLoad = this.onLoad.bind(this);
     Desklamp.onLoad = this.onLoad;
+    // Adds the on function to Desklamp obj to set a default route
+    this.defaultRoute = this.defaultRoute.bind(this);
+    Desklamp.defaultRoute = this.defaultRoute;
+    // Adds the on function to Desklamp obj
     this.syncRoute = this.syncRoute.bind(this);
     Desklamp.syncRoute = this.syncRoute;
   }
@@ -57,7 +61,7 @@ class Container extends React.Component {
   componentWillMount() {
     window.onhashchange = () => {
       const pathstring = location.hash;
-      this.routeLink(pathstring.replace('#/', ''));
+      this.routeLink(pathstring.replace('#', ''));
     };
     this.getRoutes();
     this.onLoad();
@@ -75,17 +79,49 @@ class Container extends React.Component {
     let startRoute;
     // if no starting route passed in, go get starting route from first child
       // if there are no children of container, default route is '/'
-    if (!this.props.children){
+    if (!this.props.children) {
       startRoute = '';
       throw new TypeError('Container must have children components in order to create Routes');
     } else {
       startRoute = this.props.children[0].type;
       this.props.children.forEach( (route) => {
-        if (typeof route.props.name === 'string') {
-          newRoutes[route.props.name] = route.type;
+        const routeName = '';
+        if (route.props.children) {
+          addChildrenRoutes(routeName, route);
         } else {
-          const routeName = route.type.name.toLowerCase();
-          newRoutes[routeName] = route.type;
+          if (typeof route.props.name === 'string') {
+            newRoutes[`/${route.props.name}`] = route.type;
+          } else {
+            const routeName = route.type.name.toLowerCase();
+            newRoutes[`/${routeName}`] = route.type;
+          }
+        }
+
+        function addChildrenRoutes(topString, currentChild) {
+          let name = 'type';
+          if (typeof currentChild.props.name === 'string') {
+            name = 'props';
+          }
+
+          const childRouteName = topString += `/${currentChild[name].name.toLowerCase()}`;
+
+          newRoutes[childRouteName] = currentChild.type;
+
+          if (currentChild.props.children) {
+            for (let i = 0; i < currentChild.props.children.length; i++) {
+              let tempRouteName = childRouteName;
+              const currChild = currentChild.props.children[i];
+              let otherName = 'type';
+              if (typeof currChild.props.name === 'string') {
+                otherName = 'props';
+              }
+              const newRouteName = tempRouteName += `/${currChild[otherName].name.toLowerCase()}`;
+              newRoutes[newRouteName] = currChild.type;
+              if (currChild.props.children) {
+                addChildrenRoutes(tempRouteName, currChild.props.children);
+              }
+            }
+          }
         }
       });
     }
@@ -150,6 +186,14 @@ class Container extends React.Component {
     this.setState({ renderNav: navbar });
   }
 
+  defaultRoute(route) {
+    if (typeof route === 'string') {
+      route = this.state.views[route];
+    }
+    const defaultView = Object.assign({}, this.state.views, { default: route });
+    this.setState({ views: defaultView });
+  }
+
   addFuncs(input) {
     if (input.constructor !== Object) {
       throw new TypeError('Input to addFuncs must be an object with methods that are functions');
@@ -177,8 +221,11 @@ class Container extends React.Component {
   }
 
   routeLink(view) {
-    // window.location.hash = (`#/${view}`); // now we're setting this in Link component
-    this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+    if (this.state.views[view]) {
+      this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+    } else {
+      window.location.hash = (`#/${this.state.views.default.name.toLowerCase()}`);
+    }
   }
 
   render() {
