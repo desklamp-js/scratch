@@ -171,7 +171,7 @@ class Container extends React.Component {
     if (typeof route === 'string') {
       route = this.state.views[route];
     }
-    const defaultView = Object.assign({}, this.state.views, { 'default': route });
+    const defaultView = Object.assign({}, this.state.views, { default: route });
     this.setState({ views: defaultView });
   }
 
