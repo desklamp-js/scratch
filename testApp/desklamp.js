@@ -43,6 +43,9 @@ class Container extends React.Component {
     // Allows the developer to use the componentWillMount on Container component
     this.onLoad = this.onLoad.bind(this);
     Desklamp.onLoad = this.onLoad;
+    // Adds the on function to Desklamp obj to set a default route
+    this.defaultRoute = this.defaultRoute.bind(this);
+    Desklamp.defaultRoute = this.defaultRoute;
   }
 
   componentWillMount() {
@@ -112,7 +115,6 @@ class Container extends React.Component {
         }
       });
     }
-    console.log(newRoutes);
     const newState = Object.assign({}, this.state.views, newRoutes);
     const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
     window.location.hash = (`#/${routeName}`);
@@ -165,6 +167,14 @@ class Container extends React.Component {
     this.setState({ renderNav: navbar });
   }
 
+  defaultRoute(route) {
+    if (typeof route === 'string') {
+      route = this.state.views[route];
+    }
+    const defaultView = Object.assign({}, this.state.views, { 'default': route });
+    this.setState({ views: defaultView });
+  }
+
   addFuncs(input) {
     if (input.constructor !== Object) {
       throw new TypeError('Input to addFuncs must be an object with methods that are functions');
@@ -192,8 +202,11 @@ class Container extends React.Component {
   }
 
   routeLink(view) {
-    // window.location.hash = (`#/${view}`); // now we're setting this in Link component
-    this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+    if (this.state.views[view]) {
+      this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+    } else {
+      window.location.hash = (`#/${this.state.views.default.name.toLowerCase()}`);
+    }
   }
 
   render() {

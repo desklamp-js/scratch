@@ -29,6 +29,8 @@ const initState = {
   userInfo: {},
 };
 
+Desklamp.defaultRoute('/home');
+
 const funcs = {
   login: (e) => {
     e.preventDefault();
