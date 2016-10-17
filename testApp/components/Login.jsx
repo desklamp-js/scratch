@@ -1,19 +1,19 @@
 import React from 'react';
 
 const Login = ({ powers }) => {
-  function postThisShit(e) {
-    e.preventDefault();
+  // function postThisShit(e) {
+  //   e.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+  //   const username = document.getElementById('username').value;
+  //   const password = document.getElementById('password').value;
 
-    powers.login(username, password);
-  }
+  //   powers.login(username, password);
+  // }
   return (
     <div className="container">
       <h1>This the Login page</h1>
       <br />
-      <form onSubmit={postThisShit} >
+      <form onSubmit={powers.login} >
         <div className="form-group">
 
           <input id="username" type="text" placeholder="lamp"/>

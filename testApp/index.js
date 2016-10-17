@@ -1,4 +1,4 @@
-import { Desklamp, Container } from 'desklamp';
+import { Desklamp, Container } from './desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
@@ -28,17 +28,18 @@ const initState = {
 
 const funcs = {
   login: (username, password) => {
-    $.post('http://localhost:3000/login', { username, password })
-    .done((data) => {
-      console.log('login data', data);
-      $.get('http://localhost:3000/posts', (data) => {
-        console.log('getting posts', data);
-        Desklamp.changeView('posts', { posts: data });
-      });
-    })
-    .fail((err) => {
-      console.log('Error on login post req', err);
-    });
+    // $.post('http://localhost:3000/login', { username, password })
+    // .done((data) => {
+    //   console.log('login data', data);
+    //   $.get('http://localhost:3000/posts', (data) => {
+    //     console.log('getting posts', data);
+    //     Desklamp.changeView('posts', { posts: data });
+    //   });
+    console.log('hello');
+    // })
+    // .fail((err) => {
+    //   console.log('Error on login post req', err);
+    // });
   },
   signup: (username, password) => {
     $.post('http://localhost:3000/signup', { username, password })
