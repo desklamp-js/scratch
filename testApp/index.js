@@ -1,4 +1,4 @@
-import { Desklamp, Container } from 'desklamp';
+import { Desklamp, Container } from './desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
@@ -10,14 +10,13 @@ import Posts from './components/Posts';
 import CreatePost from './components/CreatePost';
 import Nav from './components/Nav';
 
-
 ReactDOM.render((
   <Container>
     <Home name="not-home" />
     <Login />
     <Signup />
-    <Posts />
-    <CreatePost />
+    <Posts locked="true" redir="home" />
+    <CreatePost locked="true" redir="home" />
   </Container>
 ), document.getElementById('app'));
 

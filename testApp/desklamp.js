@@ -1,8 +1,15 @@
 import React from 'react';
+
 // how to make view the same name as the changed name in the RenderDOM
 const Link = ({ view, tag }) => {
   return (
     <a href={`#${view}`} >{tag}</a>
+  );
+};
+
+const AsyncLink = ({ view, tag, func}) => {
+  return (
+    <a href={`#${view}`} onClick={(e) => { e.preventDefault(); Desklamp.syncRoute(view, func); }} >{tag}</a>
   );
 };
 
@@ -43,6 +50,8 @@ class Container extends React.Component {
     // Allows the developer to use the componentWillMount on Container component
     this.onLoad = this.onLoad.bind(this);
     Desklamp.onLoad = this.onLoad;
+    this.syncRoute = this.syncRoute.bind(this);
+    Desklamp.syncRoute = this.syncRoute;
   }
 
   componentWillMount() {
@@ -84,6 +93,15 @@ class Container extends React.Component {
     const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
     window.location.hash = (`#/${routeName}`);
     this.setState({ views: newState, view: startRoute });
+  }
+
+  syncRoute(view, func) {
+    const first = new Promise(
+      (resolve, reject) => {
+        func();
+      }
+    );
+    first.then(this.routeLink(view.replace('/', '')));
   }
 
     // Allows the developer to update the state of their application
@@ -177,3 +195,4 @@ class Container extends React.Component {
 export { Container };
 export { Desklamp };
 export { Link };
+export { AsyncLink };

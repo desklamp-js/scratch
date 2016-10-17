@@ -1,7 +1,7 @@
 # Desklamp
 ## Get Started
 
-Desklamp is a React library which provides a state container and easy creation of routes. 
+Desklamp is a React library which provides a state container and easy routing. 
 
 To get started, `npm install --save desklamp`. 
 
@@ -13,13 +13,14 @@ To set up your own application, start at your topmost component and import the m
 import { Desklamp, Container } from 'desklamp'; 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
+
 ```
 `Desklamp` gives you access to our helper methods. 
 `Container` gives you the container component with all the application state.
 
 ## Routes
 
-Routing in Desklamp is meant to get you up and running with client-side page navigation and url updates, as well as browser history, as soon as possible. To create basic navigation, simply render your components inside the `Container` component Desklamp provides. For example, if you want to create routes for components `Home`, `Login`, `Signup` and `Posts`, first define these components as you normally would. Then import them into your index.js file (or wherever you're rendering `Container`), and then nest them inside the `Container` component like so:
+Routing in Desklamp is meant to get you up and running with client-side page navigation and url updates, as well as browser history, as soon as possible. To create basic navigation, simply render your components inside the `Container` component Desklamp provides. For example, if you want to create routes for components `Home`, `Login`, `Signup` and `Posts`, first define these components as you normally would, and then nest them inside the `Container` component like so:
 
 ```
 ReactDOM.render((
