@@ -75,61 +75,64 @@ class Container extends React.Component {
   }
 
   getRoutes() {
-    const newRoutes = {};
-    let startRoute;
-    // if no starting route passed in, go get starting route from first child
-      // if there are no children of container, default route is '/'
-    if (!this.props.children) {
-      startRoute = '';
-      throw new TypeError('Container must have children components in order to create Routes');
-    } else {
-      startRoute = this.props.children[0].type;
-      this.props.children.forEach( (route) => {
-        const routeName = '';
-        if (route.props.children) {
-          addChildrenRoutes(routeName, route);
-        } else {
-          if (typeof route.props.name === 'string') {
-            newRoutes[`/${route.props.name}`] = route.type;
+      const newRoutes = {};
+      let startRoute;
+      // if no starting route passed in, go get starting route from first child
+        // if there are no children of container, default route is '/'
+      if (!this.props.children) {
+        startRoute = '';
+        throw new TypeError('Container must have children components in order to create Routes');
+      } else {
+        const children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
+        startRoute = children[0].type;
+        children.forEach( (route) => {
+          const routeName = '';
+          if (route.props.children) {
+            addChildrenRoutes(routeName, route);
           } else {
-            const routeName = route.type.name.toLowerCase();
-            newRoutes[`/${routeName}`] = route.type;
-          }
-        }
-
-        function addChildrenRoutes(topString, currentChild) {
-          let name = 'type';
-          if (typeof currentChild.props.name === 'string') {
-            name = 'props';
+            if (typeof route.props.name === 'string') {
+              newRoutes[`/${route.props.name}`] = route.type;
+            } else {
+              const routeName = route.type.name.toLowerCase();
+              newRoutes[`/${routeName}`] = route.type;
+            }
           }
 
-          const childRouteName = topString += `/${currentChild[name].name.toLowerCase()}`;
+          function addChildrenRoutes(topString, currentChild) {
+            let name = 'type';
+            if (typeof currentChild.props.name === 'string') {
+              name = 'props';
+            }
 
-          newRoutes[childRouteName] = currentChild.type;
+            const childRouteName = topString += `/${currentChild[name].name.toLowerCase()}`;
 
-          if (currentChild.props.children) {
-            for (let i = 0; i < currentChild.props.children.length; i++) {
-              let tempRouteName = childRouteName;
-              const currChild = currentChild.props.children[i];
-              let otherName = 'type';
-              if (typeof currChild.props.name === 'string') {
-                otherName = 'props';
-              }
-              const newRouteName = tempRouteName += `/${currChild[otherName].name.toLowerCase()}`;
-              newRoutes[newRouteName] = currChild.type;
-              if (currChild.props.children) {
-                addChildrenRoutes(tempRouteName, currChild.props.children);
+            newRoutes[childRouteName] = currentChild.type;
+
+            if (currentChild.props.children) {
+              const children = currentChild.props.children.constructor === Object ? [currentChild.props.children] : currentChild.props.children;
+              for (let i = 0; i < children.length; i++) {
+                let tempRouteName = childRouteName;
+                const currChild = children[i];
+                let otherName = 'type';
+                if (typeof currChild.props.name === 'string') {
+                  otherName = 'props';
+                }
+                const newRouteName = tempRouteName += `/${currChild[otherName].name.toLowerCase()}`;
+                newRoutes[newRouteName] = currChild.type;
+                if (currChild.props.children) {
+                  addChildrenRoutes(tempRouteName, currChild.props.children);
+                }
               }
             }
           }
-        }
-      });
+        });
+      }
+      console.log(newRoutes);
+      const newState = Object.assign({}, this.state.views, newRoutes);
+      const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
+      window.location.hash = (`#/${routeName}`);
+      this.setState({ views: newState, view: startRoute });
     }
-    const newState = Object.assign({}, this.state.views, newRoutes);
-    const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
-    window.location.hash = (`#/${routeName}`);
-    this.setState({ views: newState, view: startRoute });
-  }
 
   syncRoute(view, func) {
     const first = new Promise(
@@ -187,10 +190,17 @@ class Container extends React.Component {
   }
 
   defaultRoute(route) {
-    if (typeof route === 'string') {
-      route = this.state.views[route];
+    const defaultView = Object.assign({}, this.state.views);
+    let otherName = 'type';
+    if (typeof route !== 'string') {
+      if (typeof route.props.name === 'string') {
+        otherName = 'props';
+      }
+      defaultView[`/${route[otherName].name.toLowerCase()}`] = route.type;
+      defaultView.default = `/${route[otherName].name.toLowerCase()}`;
+    } else {
+      defaultView.default = route;
     }
-    const defaultView = Object.assign({}, this.state.views, { default: route });
     this.setState({ views: defaultView });
   }
 
@@ -224,11 +234,12 @@ class Container extends React.Component {
     if (this.state.views[view]) {
       this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
     } else {
-      window.location.hash = (`#/${this.state.views.default.name.toLowerCase()}`);
+      window.location.hash = (`#${this.state.views.default}`);
     }
   }
 
   render() {
+    console.log('this views', this.state.views)
     const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
     return (
       <div>
