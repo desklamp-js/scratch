@@ -12,7 +12,9 @@ import Signup from './components/Signup';
 ReactDOM.render((
   <Container>
     <Home name="not-home" />
-    <Login />
+    <Login>
+      <Posts />
+    </Login>
     <Signup />
     <Posts locked="true" redir="home" />
   </Container>
@@ -24,7 +26,7 @@ const initState = {
   userInfo: {},
 };
 
-Desklamp.defaultRoute('/home');
+Desklamp.defaultRoute("/login/posts");
 
 const funcs = {
   login: (e) => {
