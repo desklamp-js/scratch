@@ -140,7 +140,7 @@ class Container extends React.Component {
         func();
       }
     );
-    first.then(this.routeLink(view.replace('/', '')));
+    first.then(window.location.hash = view);
   }
 
     // Allows the developer to update the state of their application
@@ -240,10 +240,10 @@ class Container extends React.Component {
 
   render() {
     console.log('this views', this.state.views)
-    const navBar = (this.state.renderNav) ? <this.state.renderNav /> : undefined;
+    const navBar = (this.state.renderNav) ? <this.state.renderNav state={this.state.appState} powers={this.state.userFunctions}/> : undefined;
     return (
       <div>
-        {navBar}
+        {navBar }
         <this.state.view state={this.state.appState} powers={this.state.userFunctions} />
       </div>
     );
