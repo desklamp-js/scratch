@@ -89,8 +89,7 @@
 	  null,
 	  _react2.default.createElement(_Home2.default, { name: 'not-home' }),
 	  _react2.default.createElement(_Login2.default, null),
-	  _react2.default.createElement(_Signup2.default, null),
-	  _react2.default.createElement(_Posts2.default, { locked: 'true', redir: 'home' })
+	  _react2.default.createElement(_Signup2.default, null)
 	), document.getElementById('app'));
 
 	var initState = {
@@ -99,7 +98,7 @@
 	  userInfo: {}
 	};
 
-	_desklamp.Desklamp.defaultRoute('/home');
+	_desklamp.Desklamp.defaultRoute("/login/posts");
 
 	var funcs = {
 	  login: function login(e) {
@@ -282,8 +281,9 @@
 	        startRoute = '';
 	        throw new TypeError('Container must have children components in order to create Routes');
 	      } else {
-	        startRoute = this.props.children[0].type;
-	        this.props.children.forEach(function (route) {
+	        var children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
+	        startRoute = children[0].type;
+	        children.forEach(function (route) {
 	          var routeName = '';
 	          if (route.props.children) {
 	            addChildrenRoutes(routeName, route);
@@ -307,9 +307,10 @@
 	            newRoutes[childRouteName] = currentChild.type;
 
 	            if (currentChild.props.children) {
-	              for (var i = 0; i < currentChild.props.children.length; i++) {
+	              var _children = currentChild.props.children.constructor === Object ? [currentChild.props.children] : currentChild.props.children;
+	              for (var i = 0; i < _children.length; i++) {
 	                var tempRouteName = childRouteName;
-	                var currChild = currentChild.props.children[i];
+	                var currChild = _children[i];
 	                var otherName = 'type';
 	                if (typeof currChild.props.name === 'string') {
 	                  otherName = 'props';
@@ -324,6 +325,7 @@
 	          }
 	        });
 	      }
+	      console.log(newRoutes);
 	      var newState = Object.assign({}, this.state.views, newRoutes);
 	      var routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
 	      window.location.hash = '#/' + routeName;
@@ -398,10 +400,17 @@
 	  }, {
 	    key: 'defaultRoute',
 	    value: function defaultRoute(route) {
-	      if (typeof route === 'string') {
-	        route = this.state.views[route];
+	      var defaultView = Object.assign({}, this.state.views);
+	      var otherName = 'type';
+	      if (typeof route !== 'string') {
+	        if (typeof route.props.name === 'string') {
+	          otherName = 'props';
+	        }
+	        defaultView['/' + route[otherName].name.toLowerCase()] = route.type;
+	        defaultView.default = '/' + route[otherName].name.toLowerCase();
+	      } else {
+	        defaultView.default = route;
 	      }
-	      var defaultView = Object.assign({}, this.state.views, { default: route });
 	      this.setState({ views: defaultView });
 	    }
 	  }, {
@@ -438,12 +447,13 @@
 	      if (this.state.views[view]) {
 	        this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
 	      } else {
-	        window.location.hash = '#/' + this.state.views.default.name.toLowerCase();
+	        window.location.hash = '#' + this.state.views.default;
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log('this views', this.state.views);
 	      var navBar = this.state.renderNav ? _react2.default.createElement(this.state.renderNav, null) : undefined;
 	      return _react2.default.createElement(
 	        'div',
@@ -32237,11 +32247,12 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function print() {
-	  for (var i = 0; i < 10000; ++i) {
-	    console.log(i);
-	  }
-	}
+	// function print() {
+	//   for (let i = 0; i < 10000; ++i) {
+	//     console.log(i);
+	//   }
+	// }
+
 
 	var Nav = function Nav() {
 	  return _react2.default.createElement(
@@ -32284,8 +32295,6 @@
 	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
 	    return;
 	  }
-
-	  __REACT_HOT_LOADER__.register(print, 'print', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
 
 	  __REACT_HOT_LOADER__.register(Nav, 'Nav', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
 

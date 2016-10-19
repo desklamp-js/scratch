@@ -12,11 +12,14 @@ import Signup from './components/Signup';
 ReactDOM.render((
   <Container>
     <Home name="not-home" />
+    <Posts>
+      <Login />
+      <Signup />
+    </Posts>
     <Login>
       <Posts />
-    </Login>
+    </ Login>
     <Signup />
-    <Posts locked="true" redir="home" />
   </Container>
 ), document.getElementById('app'));
 
@@ -29,27 +32,40 @@ const initState = {
 Desklamp.defaultRoute("/login/posts");
 
 const funcs = {
-  login: (e) => {
-    e.preventDefault();
-    console.log('e',e);
-    const post = 'post3';
-    const newPosts = [...Desklamp.showState().posts, post];
-    // or [].concat(state.posts), then push post into it.
-    // then call
-    Desklamp.updateState({ posts: newPosts });
-    // $.post('http://localhost:3000/login', { username, password })
-    // .done((userData) => {
-    //   $.get('http://localhost:3000/posts', (postsData) => {
-    //     Desklamp.changeView('posts', {
-    //       username: userData.username,
-    //       posts: postsData,
-    //       userInfo: userData.info,
-    //     });
-    //   });
-    // })
-    // .fail((err) => {
-    //   return err;
-    // });
+  login: (username, password) => {
+    $.post('http://localhost:3000/login', { username, password })
+    .done((userData) => {
+      $.get('http://localhost:3000/posts', (postsData) => {
+        Desklamp.changeView('posts', {
+          username: userData.username,
+          posts: postsData,
+          userInfo: userData.info,
+        });
+      });
+    })
+    .fail((err) => {
+      return err;
+    });
+  },
+  signup: (username, password) => {
+    $.post('http://localhost:3000/signup', { username, password })
+    .done((data) => {
+      console.log('signup data', data);
+      $.get('http://localhost:3000/posts', (data) => {
+        console.log('getting posts', data);
+        Desklamp.changeView('posts', { posts: data });
+      });
+    })
+    .fail((err) => {
+      console.log('Error on login post req', err);
+    });
+  },
+  getPosts: () => {
+    $.get('http://localhost:3000/posts', (postsData) => {
+      Desklamp.updateState({
+        posts: postsData,
+      });
+    });
   },
 };
 

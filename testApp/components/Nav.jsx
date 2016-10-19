@@ -8,13 +8,12 @@ import { Link, AsyncLink } from '../desklamp';
 // }
 
 
-const Nav = () => {
+const Nav = ({ powers }) => {
   return (
     <nav className="nav">
       <ul>
-        <li><AsyncLink view={'/login'} tag={'home'} func={() => print()} /></li>
+        <li><AsyncLink view={'/posts'} tag={'posts'} func={powers.getPosts} /></li>
         <li><Link view={'/login'} tag={'login'} /></li>
-        <li><Link view={'/posts'} tag={'posts'} /></li>
         <li><Link view={'/signup'} tag={'sign-up'} /></li>
       </ul>
     </nav>
