@@ -60,31 +60,29 @@
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _Home = __webpack_require__(174);
-
-	var _Home2 = _interopRequireDefault(_Home);
-
-	var _Login = __webpack_require__(175);
+	var _Login = __webpack_require__(174);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Signup = __webpack_require__(176);
-
-	var _Signup2 = _interopRequireDefault(_Signup);
-
-	var _Posts = __webpack_require__(177);
+	var _Posts = __webpack_require__(175);
 
 	var _Posts2 = _interopRequireDefault(_Posts);
 
-	var _CreatePost = __webpack_require__(178);
-
-	var _CreatePost2 = _interopRequireDefault(_CreatePost);
-
-	var _Nav = __webpack_require__(179);
+	var _Nav = __webpack_require__(176);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
 
+	var _Home = __webpack_require__(177);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
+	var _Signup = __webpack_require__(178);
+
+	var _Signup2 = _interopRequireDefault(_Signup);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _desklamp.Container,
@@ -92,44 +90,39 @@
 	  _react2.default.createElement(_Home2.default, { name: 'not-home' }),
 	  _react2.default.createElement(_Login2.default, null),
 	  _react2.default.createElement(_Signup2.default, null),
-	  _react2.default.createElement(_Posts2.default, { locked: 'true', redir: 'home' }),
-	  _react2.default.createElement(_CreatePost2.default, { locked: 'true', redir: 'home' })
+	  _react2.default.createElement(_Posts2.default, { locked: 'true', redir: 'home' })
 	), document.getElementById('app'));
 
 	var initState = {
 	  username: '',
-	  posts: [],
+	  posts: ['post', 'post2'],
 	  userInfo: {}
 	};
 
+	_desklamp.Desklamp.defaultRoute('/home');
+
 	var funcs = {
-	  login: function login(username, password) {
-	    _jquery2.default.post('http://localhost:3000/login', { username: username, password: password }).done(function (data) {
-	      console.log('login data', data);
-	      _jquery2.default.get('http://localhost:3000/posts', function (data) {
-	        console.log('getting posts', data);
-	        _desklamp.Desklamp.changeView('posts', { posts: data });
-	      });
-	    }).fail(function (err) {
-	      console.log('Error on login post req', err);
-	    });
-	  },
-	  signup: function signup(username, password) {
-	    _jquery2.default.post('http://localhost:3000/signup', { username: username, password: password }).done(function (data) {
-	      console.log('signup data', data);
-	      _jquery2.default.get('http://localhost:3000/posts', function (data) {
-	        console.log('getting posts', data);
-	        _desklamp.Desklamp.changeView('posts', { posts: data });
-	      });
-	    }).fail(function (err) {
-	      console.log('Error on login post req', err);
-	    });
-	  },
-	  createPost: function createPost(post) {
-	    _jquery2.default.post('http://localhost:3000/newPost', { post: post }, function (data) {
-	      console.log('Successful post creation!');
-	      _desklamp.Desklamp.changeView('posts', { posts: data.posts });
-	    });
+	  login: function login(e) {
+	    e.preventDefault();
+	    console.log('e', e);
+	    var post = 'post3';
+	    var newPosts = [].concat(_toConsumableArray(_desklamp.Desklamp.showState().posts), [post]);
+	    // or [].concat(state.posts), then push post into it.
+	    // then call
+	    _desklamp.Desklamp.updateState({ posts: newPosts });
+	    // $.post('http://localhost:3000/login', { username, password })
+	    // .done((userData) => {
+	    //   $.get('http://localhost:3000/posts', (postsData) => {
+	    //     Desklamp.changeView('posts', {
+	    //       username: userData.username,
+	    //       posts: postsData,
+	    //       userInfo: userData.info,
+	    //     });
+	    //   });
+	    // })
+	    // .fail((err) => {
+	    //   return err;
+	    // });
 	  }
 	};
 
@@ -141,9 +134,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(initState, 'initState', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/index.js');
+	  __REACT_HOT_LOADER__.register(initState, 'initState', '/Users/mkulinski/Documents/Projects/scratch/testApp/index.js');
 
-	  __REACT_HOT_LOADER__.register(funcs, 'funcs', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/index.js');
+	  __REACT_HOT_LOADER__.register(funcs, 'funcs', '/Users/mkulinski/Documents/Projects/scratch/testApp/index.js');
 	}();
 
 	;
@@ -243,6 +236,10 @@
 	    // Allows the developer to use the componentWillMount on Container component
 	    _this.onLoad = _this.onLoad.bind(_this);
 	    Desklamp.onLoad = _this.onLoad;
+	    // Adds the on function to Desklamp obj to set a default route
+	    _this.defaultRoute = _this.defaultRoute.bind(_this);
+	    Desklamp.defaultRoute = _this.defaultRoute;
+	    // Adds the on function to Desklamp obj
 	    _this.syncRoute = _this.syncRoute.bind(_this);
 	    Desklamp.syncRoute = _this.syncRoute;
 	    return _this;
@@ -255,7 +252,7 @@
 
 	      window.onhashchange = function () {
 	        var pathstring = location.hash;
-	        _this2.routeLink(pathstring.replace('#/', ''));
+	        _this2.routeLink(pathstring.replace('#', ''));
 	      };
 	      this.getRoutes();
 	      this.onLoad();
@@ -287,11 +284,43 @@
 	      } else {
 	        startRoute = this.props.children[0].type;
 	        this.props.children.forEach(function (route) {
-	          if (typeof route.props.name === 'string') {
-	            newRoutes[route.props.name] = route.type;
+	          var routeName = '';
+	          if (route.props.children) {
+	            addChildrenRoutes(routeName, route);
 	          } else {
-	            var _routeName = route.type.name.toLowerCase();
-	            newRoutes[_routeName] = route.type;
+	            if (typeof route.props.name === 'string') {
+	              newRoutes['/' + route.props.name] = route.type;
+	            } else {
+	              var _routeName = route.type.name.toLowerCase();
+	              newRoutes['/' + _routeName] = route.type;
+	            }
+	          }
+
+	          function addChildrenRoutes(topString, currentChild) {
+	            var name = 'type';
+	            if (typeof currentChild.props.name === 'string') {
+	              name = 'props';
+	            }
+
+	            var childRouteName = topString += '/' + currentChild[name].name.toLowerCase();
+
+	            newRoutes[childRouteName] = currentChild.type;
+
+	            if (currentChild.props.children) {
+	              for (var i = 0; i < currentChild.props.children.length; i++) {
+	                var tempRouteName = childRouteName;
+	                var currChild = currentChild.props.children[i];
+	                var otherName = 'type';
+	                if (typeof currChild.props.name === 'string') {
+	                  otherName = 'props';
+	                }
+	                var newRouteName = tempRouteName += '/' + currChild[otherName].name.toLowerCase();
+	                newRoutes[newRouteName] = currChild.type;
+	                if (currChild.props.children) {
+	                  addChildrenRoutes(tempRouteName, currChild.props.children);
+	                }
+	              }
+	            }
 	          }
 	        });
 	      }
@@ -367,6 +396,15 @@
 	      this.setState({ renderNav: navbar });
 	    }
 	  }, {
+	    key: 'defaultRoute',
+	    value: function defaultRoute(route) {
+	      if (typeof route === 'string') {
+	        route = this.state.views[route];
+	      }
+	      var defaultView = Object.assign({}, this.state.views, { default: route });
+	      this.setState({ views: defaultView });
+	    }
+	  }, {
 	    key: 'addFuncs',
 	    value: function addFuncs(input) {
 	      if (input.constructor !== Object) {
@@ -397,8 +435,11 @@
 	  }, {
 	    key: 'routeLink',
 	    value: function routeLink(view) {
-	      // window.location.hash = (`#/${view}`); // now we're setting this in Link component
-	      this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+	      if (this.state.views[view]) {
+	        this.setState({ view: this.state.views[view] }); // TODO: let Dev pass in variable for url string
+	      } else {
+	        window.location.hash = '#/' + this.state.views.default.name.toLowerCase();
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -427,13 +468,13 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Link, 'Link', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Link, 'Link', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(AsyncLink, 'AsyncLink', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(AsyncLink, 'AsyncLink', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(Desklamp, 'Desklamp', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Desklamp, 'Desklamp', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(Container, 'Container', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Container, 'Container', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
 	}();
 
 	;
@@ -32035,6 +32076,228 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Login = function Login(_ref) {
+	  var powers = _ref.powers;
+
+	  function postThisShit(e) {
+	    e.preventDefault();
+
+	    var username = document.getElementById('username').value;
+	    var password = document.getElementById('password').value;
+
+	    powers.login(username, password);
+	  }
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'This the Login page'
+	    ),
+	    _react2.default.createElement('br', null),
+	    _react2.default.createElement(
+	      'form',
+	      { onSubmit: postThisShit },
+	      _react2.default.createElement('input', { id: 'username', type: 'text', placeholder: 'username' }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: 'username', className: 'control-label' },
+	        'Username'
+	      ),
+	      _react2.default.createElement('input', { id: 'password', type: 'password', placeholder: 'desklamp' }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: 'password', className: 'control-label' },
+	        'Password'
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { type: 'submit', className: 'button' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Submit'
+	        )
+	      )
+	    )
+	  );
+	};
+
+	var _default = Login;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(Login, 'Login', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Login.jsx');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Login.jsx');
+	}();
+
+	;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Posts = function Posts(_ref) {
+	  var state = _ref.state;
+
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "container" },
+	    _react2.default.createElement(
+	      "h1",
+	      null,
+	      "This the posts page"
+	    ),
+	    state.posts.map(function (message) {
+	      return [_react2.default.createElement(
+	        "div",
+	        { className: "posts" },
+	        _react2.default.createElement(
+	          "h3",
+	          null,
+	          " ",
+	          message.title
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          message.body
+	        )
+	      )];
+	    })
+	  );
+	};
+
+	Posts.defaultProps = {
+	  posts: []
+	};
+
+	var _default = Posts;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(Posts, "Posts", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Posts.jsx");
+
+	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Posts.jsx");
+	}();
+
+	;
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _desklamp = __webpack_require__(1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function print() {
+	  for (var i = 0; i < 10000; ++i) {
+	    console.log(i);
+	  }
+	}
+
+	var Nav = function Nav() {
+	  return _react2.default.createElement(
+	    'nav',
+	    { className: 'nav' },
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(_desklamp.AsyncLink, { view: '/login', tag: 'home', func: function func() {
+	            return print();
+	          } })
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(_desklamp.Link, { view: '/login', tag: 'login' })
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(_desklamp.Link, { view: '/posts', tag: 'posts' })
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(_desklamp.Link, { view: '/signup', tag: 'sign-up' })
+	      )
+	    )
+	  );
+	};
+
+	var _default = Nav;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(print, 'print', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
+
+	  __REACT_HOT_LOADER__.register(Nav, 'Nav', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
+	}();
+
+	;
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -32073,109 +32336,15 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Home, "Home", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Home.jsx");
+	  __REACT_HOT_LOADER__.register(Home, "Home", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Home.jsx");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Home.jsx");
+	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Home.jsx");
 	}();
 
 	;
 
 /***/ },
-/* 175 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Login = function Login(_ref) {
-	  var powers = _ref.powers;
-
-	  // function postThisShit(e) {
-	  //   e.preventDefault();
-
-	  //   const username = document.getElementById('username').value;
-	  //   const password = document.getElementById('password').value;
-
-	  //   powers.login(username, password);
-	  // }
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "container" },
-	    _react2.default.createElement(
-	      "h1",
-	      null,
-	      "This the Login page"
-	    ),
-	    _react2.default.createElement("br", null),
-	    _react2.default.createElement(
-	      "form",
-	      { onSubmit: powers.login },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement("input", { id: "username", type: "text", placeholder: "lamp" }),
-	        _react2.default.createElement(
-	          "label",
-	          { htmlFor: "username", className: "control-label" },
-	          "Username"
-	        ),
-	        _react2.default.createElement("i", { className: "bar" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement("input", { id: "password", type: "password", placeholder: "desklamp" }),
-	        _react2.default.createElement(
-	          "label",
-	          { htmlFor: "password", className: "control-label" },
-	          "Password"
-	        ),
-	        _react2.default.createElement("i", { className: "bar" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "button-container" },
-	        _react2.default.createElement(
-	          "button",
-	          { type: "submit", className: "button" },
-	          _react2.default.createElement(
-	            "span",
-	            null,
-	            "Submit"
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-	var _default = Login;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(Login, "Login", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Login.jsx");
-
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Login.jsx");
-	}();
-
-	;
-
-/***/ },
-/* 176 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32262,195 +32431,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Signup, 'Signup', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Signup.jsx');
+	  __REACT_HOT_LOADER__.register(Signup, 'Signup', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Signup.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Signup.jsx');
-	}();
-
-	;
-
-/***/ },
-/* 177 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Posts = function Posts(_ref) {
-	  var state = _ref.state;
-
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "container" },
-	    _react2.default.createElement(
-	      "h1",
-	      null,
-	      "This the posts page"
-	    ),
-	    state.posts.map(function (message) {
-	      return [_react2.default.createElement(
-	        "div",
-	        { className: "posts" },
-	        _react2.default.createElement(
-	          "h3",
-	          null,
-	          " ",
-	          message.title
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          message.body
-	        )
-	      )];
-	    })
-	  );
-	};
-
-	Posts.defaultProps = {
-	  posts: []
-	};
-
-	var _default = Posts;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(Posts, "Posts", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Posts.jsx");
-
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Posts.jsx");
-	}();
-
-	;
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CreatePost = function CreatePost() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h1',
-	      null,
-	      'This the CreatePost page'
-	    )
-	  );
-	};
-
-	var _default = CreatePost;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(CreatePost, 'CreatePost', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/CreatePost.jsx');
-
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/CreatePost.jsx');
-	}();
-
-	;
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _desklamp = __webpack_require__(1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function print() {
-	  for (var i = 0; i < 10000; ++i) {
-	    console.log(i);
-	  }
-	}
-
-	var Nav = function Nav() {
-	  return _react2.default.createElement(
-	    'nav',
-	    { className: 'nav' },
-	    _react2.default.createElement(
-	      'ul',
-	      null,
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(_desklamp.AsyncLink, { view: '/login', tag: 'home', func: function func() {
-	            return print();
-	          } })
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(_desklamp.Link, { view: '/login', tag: 'login' })
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(_desklamp.Link, { view: '/posts', tag: 'posts' })
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(_desklamp.Link, { view: '/signup', tag: 'sign-up' })
-	      )
-	    )
-	  );
-	};
-
-	var _default = Nav;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(print, 'print', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Nav.jsx');
-
-	  __REACT_HOT_LOADER__.register(Nav, 'Nav', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Nav.jsx');
-
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/Jwookie55/Desktop/Codesmith/scratch/testApp/components/Nav.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Signup.jsx');
 	}();
 
 	;

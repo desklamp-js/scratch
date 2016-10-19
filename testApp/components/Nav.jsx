@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, AsyncLink } from '../desklamp';
 
-function print() {
-  for (let i = 0; i < 10000; ++i) {
-    console.log(i);
-  }
-}
+// function print() {
+//   for (let i = 0; i < 10000; ++i) {
+//     console.log(i);
+//   }
+// }
 
 
 const Nav = () => {
