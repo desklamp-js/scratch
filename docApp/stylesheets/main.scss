@@ -1,0 +1,16 @@
+@import 'home';
+@import 'nav';
+
+html, body{
+  height: 100%;
+}
+
+html, body, div, h1, h2, h3, p{
+  font-family: 'Raleway', sans-serif;
+}
+
+h1{
+  text-align: center;
+  padding:0px;
+  margin:0;
+}
