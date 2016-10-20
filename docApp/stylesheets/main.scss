@@ -1,15 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto:700|Varela+Round');
 @import 'home';
 @import 'nav';
 
-html, body{
+html, body {
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  color: #525252;
 }
 
-html, body, div, h1, h2, h3, p{
-  font-family: 'Raleway', sans-serif;
+h1, h2, h3 {
+  font-family: 'Varela Round', sans-serif;
 }
 
-h1{
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+.component {
+  padding-top: 30px;
+  padding-left: 300px;
+}
+
+h1 {
+  padding-top: 70px;
+  padding-left: 300px;
   text-align: center;
   padding:0px;
   margin:0;

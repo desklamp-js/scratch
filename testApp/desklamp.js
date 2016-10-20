@@ -215,7 +215,7 @@ class Container extends React.Component {
       this.state.userFunctions[key] = input[key].bind(this);
     }
   }
-
+  
   changeView(view, newState) {
     if (typeof view !== 'string') {
       throw new Error('changeView(): takes a string as a first parameter');

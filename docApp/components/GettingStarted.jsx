@@ -2,8 +2,8 @@ import React from 'react';
 
 const GettingStarted = () => {
   return (
-    <div>
-      <h1>This the GettingStarted page</h1>
+    <div className="component">
+      <h1 className="main-heading">This the GettingStarted page</h1>
     </div>
   );
 };

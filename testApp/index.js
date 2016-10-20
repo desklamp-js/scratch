@@ -29,7 +29,7 @@ const initState = {
   userInfo: {},
 };
 
-Desklamp.defaultRoute("/login/posts");
+Desklamp.defaultRoute("/home");
 
 const funcs = {
   login: (username, password) => {
