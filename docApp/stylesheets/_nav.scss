@@ -4,7 +4,9 @@
 
 .nav-text-logo {
   font-family: 'Roboto', sans-serif;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 300px;
   font-weight: 700;
   font-size: 30px;

@@ -1,72 +1,33 @@
-import { Desklamp, Container } from './desklamp';
+import { Desklamp, Container } from 'desklamp';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 
-import Login from './components/Login';
-import Posts from './components/Posts';
-import Nav from './components/Nav';
+// Normal React components
 import Home from './components/Home';
-import Signup from './components/Signup';
+import CreatePost from './components/CreatePost';
+import Nav from './components/Nav'; // custom Nav component that you create
+// (See Nav documentation below)
+
+// Create an initial state object
+const initState = {
+  posts: [],
+};
+
+// Create an object with your custom functions as its methods.
+const funcs = {};
 
 ReactDOM.render((
+  // Child components here become your routable urls
   <Container>
-    <Home name="not-home" />
-    <Posts>
-      <Login />
-      <Signup />
-    </Posts>
-    <Login>
-      <Posts />
-    </ Login>
-    <Signup />
+    <Home name="home" /> // optional name property for custom route/url name
+    <CreatePost /> // by default, Desklamp will name your route after your component
   </Container>
 ), document.getElementById('app'));
 
-const initState = {
-  username: '',
-  posts: ['post', 'post2'],
-  userInfo: {},
+funcs.createPost = (post) => {
+  alert(post);
 };
 
-Desklamp.defaultRoute("/home");
-
-const funcs = {
-  login: (username, password) => {
-    $.post('http://localhost:3000/login', { username, password })
-    .done((userData) => {
-      $.get('http://localhost:3000/posts', (postsData) => {
-        Desklamp.changeView('posts', {
-          username: userData.username,
-          posts: postsData,
-          userInfo: userData.info,
-        });
-      });
-    })
-    .fail((err) => {
-      return err;
-    });
-  },
-  signup: (username, password) => {
-    $.post('http://localhost:3000/signup', { username, password })
-    .done((data) => {
-      console.log('signup data', data);
-      $.get('http://localhost:3000/posts', (data) => {
-        console.log('getting posts', data);
-        Desklamp.changeView('posts', { posts: data });
-      });
-    })
-    .fail((err) => {
-      console.log('Error on login post req', err);
-    });
-  },
-  getPosts: () => {
-    $.get('http://localhost:3000/posts', (postsData) => {
-      Desklamp.updateState({
-        posts: postsData,
-      });
-    });
-  },
-};
-
+// Initialize Desklamp below your ReactDOM.render
+// Pass in your initial state object, funcs object, and your imported Nav
 Desklamp.on(initState, funcs, Nav);

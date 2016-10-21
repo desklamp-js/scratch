@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto:700|Varela+Round');
 @import 'home';
 @import 'nav';
+@import 'quickStart';
 
 html, body {
   height: 100%;
@@ -22,15 +23,15 @@ header, main, footer {
   }
 }
 
-.component {
-  padding-top: 30px;
-  padding-left: 300px;
-}
-
 h1 {
   padding-top: 70px;
   padding-left: 300px;
   text-align: center;
   padding:0px;
   margin:0;
+}
+
+.component {
+  padding-top: 30px;
+  padding-left: 300px;
 }

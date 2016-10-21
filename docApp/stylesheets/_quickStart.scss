@@ -1,0 +1,30 @@
+.url {
+  height: 80px;
+  padding-left: 10px;
+  width: 100%;
+  background-color: #D3D3D3;
+}
+.browser {
+  height: 500px;
+}
+.url-bar {
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 20px;
+  height: 40px;
+  width: 400px;
+  border-radius: 8px;
+  border: 1px solid grey;
+  background-color: white;
+}
+.rocket {
+  width: 20px;
+  height: 20px;
+}
+.arrow {
+  display: inline-block;
+  margin: 10px;
+}
+.left-arrow {
+  margin-left: 20px;
+}
