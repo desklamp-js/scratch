@@ -5,9 +5,9 @@ const Nav = () => {
   return (
     <nav>
       <div className="nav-text-logo">Desklamp Docs</div>
-      <ul id="slide-out" className="side-nav fixed">
+      <ul className="side-nav fixed browserStyle">
         <li><div className="nav-logo"><Link view={'/home'} tag={'Desklamp'} /></div></li>
-        <li><div className="divider"></div></li>
+        <li><div className="divider"><hr /></div></li>
         <li><Link view={'/quick-start'} tag={'Quick Start'} /></li>
         <li><Link view={'/getting-started'} tag={'Getting Started'} /></li>
         <li><Link view={'/createroutes'} tag={'Creating Routes'} /></li>

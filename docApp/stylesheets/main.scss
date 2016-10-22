@@ -2,27 +2,24 @@
 @import 'home';
 @import 'nav';
 @import 'quickStart';
+@import 'normalize';
 
 html, body {
   height: 100%;
   font-family: 'Open Sans', sans-serif;
   color: #525252;
 }
-
 h1, h2, h3 {
   font-family: 'Varela Round', sans-serif;
 }
-
 header, main, footer {
   padding-left: 300px;
 }
-
 @media only screen and (max-width : 992px) {
   header, main, footer {
     padding-left: 0;
   }
 }
-
 h1 {
   padding-top: 70px;
   padding-left: 300px;
@@ -30,7 +27,12 @@ h1 {
   padding:0px;
   margin:0;
 }
-
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
 .component {
   padding-top: 30px;
   padding-left: 300px;
