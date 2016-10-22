@@ -82,13 +82,21 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 	_reactDom2.default.render(_react2.default.createElement(
 	  _desklamp.Container,
 	  null,
 	  _react2.default.createElement(_Home2.default, { name: 'not-home' }),
-	  _react2.default.createElement(_Login2.default, null),
+	  _react2.default.createElement(
+	    _Posts2.default,
+	    null,
+	    _react2.default.createElement(_Login2.default, null),
+	    _react2.default.createElement(_Signup2.default, null)
+	  ),
+	  _react2.default.createElement(
+	    _Login2.default,
+	    null,
+	    _react2.default.createElement(_Posts2.default, null)
+	  ),
 	  _react2.default.createElement(_Signup2.default, null)
 	), document.getElementById('app'));
 
@@ -101,27 +109,36 @@
 	_desklamp.Desklamp.defaultRoute("/login/posts");
 
 	var funcs = {
-	  login: function login(e) {
-	    e.preventDefault();
-	    console.log('e', e);
-	    var post = 'post3';
-	    var newPosts = [].concat(_toConsumableArray(_desklamp.Desklamp.showState().posts), [post]);
-	    // or [].concat(state.posts), then push post into it.
-	    // then call
-	    _desklamp.Desklamp.updateState({ posts: newPosts });
-	    // $.post('http://localhost:3000/login', { username, password })
-	    // .done((userData) => {
-	    //   $.get('http://localhost:3000/posts', (postsData) => {
-	    //     Desklamp.changeView('posts', {
-	    //       username: userData.username,
-	    //       posts: postsData,
-	    //       userInfo: userData.info,
-	    //     });
-	    //   });
-	    // })
-	    // .fail((err) => {
-	    //   return err;
-	    // });
+	  login: function login(username, password) {
+	    _jquery2.default.post('http://localhost:3000/login', { username: username, password: password }).done(function (userData) {
+	      _jquery2.default.get('http://localhost:3000/posts', function (postsData) {
+	        _desklamp.Desklamp.changeView('posts', {
+	          username: userData.username,
+	          posts: postsData,
+	          userInfo: userData.info
+	        });
+	      });
+	    }).fail(function (err) {
+	      return err;
+	    });
+	  },
+	  signup: function signup(username, password) {
+	    _jquery2.default.post('http://localhost:3000/signup', { username: username, password: password }).done(function (data) {
+	      console.log('signup data', data);
+	      _jquery2.default.get('http://localhost:3000/posts', function (data) {
+	        console.log('getting posts', data);
+	        _desklamp.Desklamp.changeView('posts', { posts: data });
+	      });
+	    }).fail(function (err) {
+	      console.log('Error on login post req', err);
+	    });
+	  },
+	  getPosts: function getPosts() {
+	    _jquery2.default.get('http://localhost:3000/posts', function (postsData) {
+	      _desklamp.Desklamp.updateState({
+	        posts: postsData
+	      });
+	    });
 	  }
 	};
 
@@ -133,9 +150,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(initState, 'initState', '/Users/mkulinski/Documents/Projects/scratch/testApp/index.js');
+	  __REACT_HOT_LOADER__.register(initState, 'initState', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/index.js');
 
-	  __REACT_HOT_LOADER__.register(funcs, 'funcs', '/Users/mkulinski/Documents/Projects/scratch/testApp/index.js');
+	  __REACT_HOT_LOADER__.register(funcs, 'funcs', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/index.js');
 	}();
 
 	;
@@ -337,7 +354,7 @@
 	      var first = new Promise(function (resolve, reject) {
 	        func();
 	      });
-	      first.then(this.routeLink(view.replace('/', '')));
+	      first.then(window.location.hash = view);
 	    }
 
 	    // Allows the developer to update the state of their application
@@ -454,7 +471,7 @@
 	    key: 'render',
 	    value: function render() {
 	      console.log('this views', this.state.views);
-	      var navBar = this.state.renderNav ? _react2.default.createElement(this.state.renderNav, null) : undefined;
+	      var navBar = this.state.renderNav ? _react2.default.createElement(this.state.renderNav, { state: this.state.appState, powers: this.state.userFunctions }) : undefined;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -478,13 +495,13 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Link, 'Link', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Link, 'Link', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(AsyncLink, 'AsyncLink', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(AsyncLink, 'AsyncLink', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(Desklamp, 'Desklamp', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Desklamp, 'Desklamp', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/desklamp.js');
 
-	  __REACT_HOT_LOADER__.register(Container, 'Container', '/Users/mkulinski/Documents/Projects/scratch/testApp/desklamp.js');
+	  __REACT_HOT_LOADER__.register(Container, 'Container', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/desklamp.js');
 	}();
 
 	;
@@ -32155,9 +32172,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Login, 'Login', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Login.jsx');
+	  __REACT_HOT_LOADER__.register(Login, 'Login', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Login.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Login.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Login.jsx');
 	}();
 
 	;
@@ -32222,9 +32239,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Posts, "Posts", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Posts.jsx");
+	  __REACT_HOT_LOADER__.register(Posts, "Posts", "/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Posts.jsx");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Posts.jsx");
+	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Posts.jsx");
 	}();
 
 	;
@@ -32254,7 +32271,9 @@
 	// }
 
 
-	var Nav = function Nav() {
+	var Nav = function Nav(_ref) {
+	  var powers = _ref.powers;
+
 	  return _react2.default.createElement(
 	    'nav',
 	    { className: 'nav' },
@@ -32264,19 +32283,12 @@
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        _react2.default.createElement(_desklamp.AsyncLink, { view: '/login', tag: 'home', func: function func() {
-	            return print();
-	          } })
+	        _react2.default.createElement(_desklamp.AsyncLink, { view: '/posts', tag: 'posts', func: powers.getPosts })
 	      ),
 	      _react2.default.createElement(
 	        'li',
 	        null,
 	        _react2.default.createElement(_desklamp.Link, { view: '/login', tag: 'login' })
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(_desklamp.Link, { view: '/posts', tag: 'posts' })
 	      ),
 	      _react2.default.createElement(
 	        'li',
@@ -32296,9 +32308,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Nav, 'Nav', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
+	  __REACT_HOT_LOADER__.register(Nav, 'Nav', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Nav.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Nav.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Nav.jsx');
 	}();
 
 	;
@@ -32345,9 +32357,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Home, "Home", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Home.jsx");
+	  __REACT_HOT_LOADER__.register(Home, "Home", "/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Home.jsx");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/mkulinski/Documents/Projects/scratch/testApp/components/Home.jsx");
+	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Home.jsx");
 	}();
 
 	;
@@ -32440,9 +32452,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Signup, 'Signup', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Signup.jsx');
+	  __REACT_HOT_LOADER__.register(Signup, 'Signup', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Signup.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/mkulinski/Documents/Projects/scratch/testApp/components/Signup.jsx');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/kate/codesmith/DESKLAMP/scratch/testApp/components/Signup.jsx');
 	}();
 
 	;
