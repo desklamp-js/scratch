@@ -1,17 +1,18 @@
 import React from 'react';
-
+// Custom link component
 const Link = ({ view, tag }) => {
   return (
     <a href={`#${view}`} >{tag}</a>
   );
 };
-
+// Custom link component to call async functions before routing to page
 const AsyncLink = ({ view, tag, func}) => {
   return (
     <a href={`#${view}`} onClick={(e) => { e.preventDefault(); Desklamp.syncRoute(view, func); }} >{tag}</a>
   );
 };
 
+// Object that contains all functions
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -35,11 +36,11 @@ class Container extends React.Component {
     Desklamp.changeView = this.changeView;
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
-    // Adds updateState and showState funcs to Desklamp obj
+    // Adds updateState and getState funcs to Desklamp obj
     this.updateState = this.updateState.bind(this);
     Desklamp.updateState = this.updateState;
-    this.showState = this.showState.bind(this);
-    Desklamp.showState = this.showState;
+    this.getState = this.getState.bind(this);
+    Desklamp.getState = this.getState;
     // Adds history to Desklamp obj
     this.history = this.history.bind(this);
     Desklamp.history = this.history;
@@ -155,7 +156,7 @@ class Container extends React.Component {
   }
 
     // Displays the current application state
-  showState() {
+  getState() {
     return this.state.appState;
   }
 
@@ -240,7 +241,7 @@ class Container extends React.Component {
     const navBar = (this.state.renderNav) ? <this.state.renderNav state={this.state.appState} powers={this.state.userFunctions} /> : undefined;
     return (
       <div>
-        {navBar }
+        {navBar}
         <this.state.view state={this.state.appState} powers={this.state.userFunctions} />
       </div>
     );
