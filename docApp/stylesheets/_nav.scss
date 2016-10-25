@@ -1,5 +1,10 @@
-.nav-logo {
-  margin-top: 100px;
+$lightB: #ACF0F2;
+$orange: #EB7F00;
+$yellow: #F3FFE2;
+$darkB: #225378;
+
+a {
+  color: $darkB;
 }
 .nav-text-logo {
   padding-top: 15px;
@@ -8,7 +13,8 @@ nav {
   height: 64px;
   box-shadow: rgba(0, 0, 0, 0.247059) 0px 4px 10px;
   border: 1px solid rgb(204, 204, 204);
-  background-color: yellow;
+  background-color: $lightB;
+  color: #FFF;
 }
 li {
   padding-top: 15px;
@@ -20,7 +26,8 @@ li {
   top: 0;
   left: 0;
   height: 100%;
-  background: white;
+  color: $darkB;
+  background-color: $yellow;
   box-shadow: rgba(0, 0, 0, 0.247059) 0px 4px 10px;
   border: 1px solid rgb(204, 204, 204);
   line-height: 1.7em;
@@ -36,9 +43,10 @@ li {
   font-weight: 700;
   font-size: 30px;
 }
-
 .small{
   padding-top: 5px;
   font-size:.75em;
 }
-
+.browserStyle {
+  background-color: $yellow;
+}

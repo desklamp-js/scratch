@@ -1,5 +1,40 @@
-.logo {
+$yellow: #F3FFE2;
+
+h4 {
+  font-size: 2em;
+  color: $yellow;
+}
+.main-heading {
+  color: $yellow;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 150px;
+}
+.home-header {
+  background: url(/assets/background.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+.words {
+  margin-top: 10px;
+  width: 550px;
+}
+.code {
+  margin-top: 85px;
+}
+.links {
+  margin-top: 100px;
+}
+.links, .links-link {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.links-link {
+  flex-direction: column;
+}
+.home-heading {
+  font-size: 3em;
 }

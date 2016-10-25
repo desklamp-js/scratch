@@ -6,6 +6,7 @@ const Nav = ({ powers }) => {
     <nav>
       <div className="nav-text-logo">Desklamp Docs</div>
       <ul className="side-nav fixed browserStyle">
+        <img src="./assets/lamp.png" alt="logo" height="100px" width="120px"/>
         <li><div className="nav-logo"><Link view={'/home'} tag={'Desklamp'} /></div></li>
         <li><div className="divider"><hr /></div></li>
         <li><Link view={'/quick-start'} tag={'Quick Start'} /></li>
