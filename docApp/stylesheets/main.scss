@@ -4,6 +4,12 @@
 @import 'quickStart';
 @import 'normalize';
 
+$lightB: #ACF0F2;
+$blue: #1695A3;
+$darkB: #225378;
+$yellow: #F3FFE2;
+$orange: #EB7F00;
+
 html, body {
   height: 100%;
   font-family: 'Open Sans', sans-serif;
@@ -20,7 +26,7 @@ header, main, footer {
     padding-left: 0;
   }
 }
-h1 {
+h1, h4 {
   padding-top: 70px;
   padding-left: 300px;
   text-align: center;
@@ -33,6 +39,7 @@ h1 {
   text-align: center;
   padding:0px;
   margin:40px 0 40px 0;
+  color: $darkB;
 }
 a {
   text-decoration: none;
@@ -44,9 +51,12 @@ ul {
 .component {
   padding-top: 30px;
   padding-left: 300px;
+  overflow-y: auto;
 }
 .text{
   margin: 0 100px;
+  line-height: 27px;
+  font-size: 1.05em;
 }
 
 .inlinecode{
@@ -67,4 +77,7 @@ h3{
 .codeimg{
   margin: 5% auto;
   margin-bottom: 0;
+}
+.home-heading {
+  color: $yellow;
 }

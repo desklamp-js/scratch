@@ -6,11 +6,12 @@
 .words {
   width: 550px;
 }
-.code {
-  margin-top: 85px;
+.heading {
+  margin-bottom: 0px;
+  margin-top: 10px;
 }
 .browser {
-  margin-top: 20px;
+  margin-top: 45px;
   height: 500px;
 }
 .browserStyle {
@@ -25,33 +26,43 @@
   height: 80px;
   width: 100%;
   background-color: #D3D3D3;
+  overflow: hidden;
 }
 .url-bar {
   display: inline-block;
   margin-left: 20px;
-  margin-top: 20px;
+  margin-top: 18px;
+  padding-left: 20px;
   height: 40px;
-  width: 400px;
+  width: 380px;
   border-radius: 8px;
   border: 1px solid grey;
   background-color: white;
+  float: left;
 }
 .rocket {
   width: 20px;
   height: 20px;
 }
 .arrow {
-  display: inline-block;
   margin: 10px;
+}
+.arrow:hover {
+  cursor: pointer;
 }
 .left-arrow {
   margin-left: 20px;
 }
-
 .anchor{
   color: blue;
 }
-
+.anchor:hover {
+  cursor: pointer;
+}
 .anchor:hover{
   color: purple;
+}
+.arrow-box {
+  float: left;
+  margin-top: 20px;
 }
