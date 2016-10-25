@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "cors": "^2.8.1",
-    "desklamp": "0.0.7",
+    "desklamp": "^0.1.2",
     "jquery": "^3.1.1",
     "materialize-css": "^0.97.7",
     "react": "^15.3.2",

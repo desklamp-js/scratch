@@ -10,35 +10,35 @@ const PATHS = {
 module.exports = {
   entry: {
     javascript: PATHS.app,
-    html: PATHS.html
+    html: PATHS.html,
   },
   output: {
     path: PATHS.dist,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   devServer: {
-    contentBase: PATHS.dist
+    contentBase: PATHS.dist,
   },
   eslint: {
-    emitWarning: true
+    emitWarning: true,
   },
   module: {
     preLoaders: [
       {
         test: /\.(js|jsx)$/,
         loaders: ["eslint-loader"],
-        exclude: /node_modules/
-      }
+        exclude: /node_modules/,
+      },
     ],
     loaders: [
       {
         test: /\.html$/,
-        loader: "file?name=[name].[ext]"
+        loader: "file?name=[name].[ext]",
       }, {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"]
+        loaders: ["babel-loader"],
       }, {
         test: /\.scss$/,
         loaders: ['style', 'css', 'sass'],
@@ -51,6 +51,6 @@ module.exports = {
     'react/lib/ReactContext': true,
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
-  }
+    extensions: ['', '.js', '.jsx'],
+  },
 };

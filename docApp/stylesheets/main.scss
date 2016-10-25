@@ -25,10 +25,18 @@ h1 {
   padding-left: 300px;
   text-align: center;
   padding:0px;
-  margin:0;
+  margin:0 0 40px 0;
+}
+.main-heading {
+  padding-top: 70px;
+  padding-left: 300px;
+  text-align: center;
+  padding:0px;
+  margin:40px 0 40px 0;
 }
 a {
   text-decoration: none;
+  display: block;
 }
 ul {
   list-style: none;
@@ -36,4 +44,27 @@ ul {
 .component {
   padding-top: 30px;
   padding-left: 300px;
+}
+.text{
+  margin: 0 100px;
+}
+
+.inlinecode{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+h3{
+  text-align: center;
+}
+
+.navText{
+  margin: 0;
+}
+
+.codeimg{
+  margin: 5% auto;
+  margin-bottom: 0;
 }

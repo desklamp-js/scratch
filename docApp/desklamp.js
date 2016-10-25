@@ -77,13 +77,13 @@ class Container extends React.Component {
   getRoutes() {
       const newRoutes = {};
       let startRoute;
+      const children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
       // if no starting route passed in, go get starting route from first child
         // if there are no children of container, default route is '/'
       if (!this.props.children) {
         startRoute = '';
         throw new TypeError('Container must have children components in order to create Routes');
       } else {
-        const children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
         startRoute = children[0].type;
         children.forEach( (route) => {
           const routeName = '';
@@ -129,7 +129,7 @@ class Container extends React.Component {
       }
       console.log(newRoutes);
       const newState = Object.assign({}, this.state.views, newRoutes);
-      const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
+      const routeName = children[0].props.name || children[0].type.name.toLowerCase();
       window.location.hash = (`#/${routeName}`);
       this.setState({ views: newState, view: startRoute });
     }

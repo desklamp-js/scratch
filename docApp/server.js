@@ -10,8 +10,8 @@ const postController = require('./server/postController');
 
 const app = express();
 
-const mongoURI = 'mongodb://localhost:27017/test';
-mongoose.connect(mongoURI);
+// const mongoURI = 'mongodb://localhost:27017/test';
+// mongoose.connect(mongoURI);
 
 app.use(cors());
 app.use(bodyParser.json());
