@@ -1,18 +1,18 @@
 import React from 'react';
-
-// how to make view the same name as the changed name in the RenderDOM
+// Custom link component
 const Link = ({ view, tag }) => {
   return (
     <a href={`#${view}`} >{tag}</a>
   );
 };
-
+// Custom link component to call async functions before routing to page
 const AsyncLink = ({ view, tag, func}) => {
   return (
     <a href={`#${view}`} onClick={(e) => { e.preventDefault(); Desklamp.syncRoute(view, func); }} >{tag}</a>
   );
 };
 
+// Object that contains all functions
 const Desklamp = {};
 
 class Container extends React.Component {
@@ -36,11 +36,11 @@ class Container extends React.Component {
     Desklamp.changeView = this.changeView;
     this.routeLink = this.routeLink.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
-    // Adds updateState and showState funcs to Desklamp obj
+    // Adds updateState and getState funcs to Desklamp obj
     this.updateState = this.updateState.bind(this);
     Desklamp.updateState = this.updateState;
-    this.showState = this.showState.bind(this);
-    Desklamp.showState = this.showState;
+    this.getState = this.getState.bind(this);
+    Desklamp.getState = this.getState;
     // Adds history to Desklamp obj
     this.history = this.history.bind(this);
     Desklamp.history = this.history;
@@ -77,13 +77,13 @@ class Container extends React.Component {
   getRoutes() {
       const newRoutes = {};
       let startRoute;
+      const children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
       // if no starting route passed in, go get starting route from first child
         // if there are no children of container, default route is '/'
       if (!this.props.children) {
         startRoute = '';
         throw new TypeError('Container must have children components in order to create Routes');
       } else {
-        const children = this.props.children.constructor === Object ? [this.props.children] : this.props.children;
         startRoute = children[0].type;
         children.forEach( (route) => {
           const routeName = '';
@@ -127,9 +127,8 @@ class Container extends React.Component {
           }
         });
       }
-      console.log(newRoutes);
       const newState = Object.assign({}, this.state.views, newRoutes);
-      const routeName = this.props.children[0].props.name || this.props.children[0].type.name.toLowerCase();
+      const routeName = children[0].props.name || children[0].type.name.toLowerCase();
       window.location.hash = (`#/${routeName}`);
       this.setState({ views: newState, view: startRoute });
     }
@@ -157,7 +156,7 @@ class Container extends React.Component {
   }
 
     // Displays the current application state
-  showState() {
+  getState() {
     return this.state.appState;
   }
 
@@ -176,7 +175,7 @@ class Container extends React.Component {
       throw new TypeError('on(): takes an object as a second parameter which contains functions');
     }
     if (navbar.constructor !== Function && navbar !== undefined) {
-      throw new TypeError('on(): takes a boolean as a fourth param; true if you want our navbar');
+      throw new TypeError('on(): takes a React component as a third param');
     }
     // Update the state to passed in initial state
     this.updateState(initState);
@@ -239,11 +238,10 @@ class Container extends React.Component {
   }
 
   render() {
-    console.log('this views', this.state.views)
-    const navBar = (this.state.renderNav) ? <this.state.renderNav state={this.state.appState} powers={this.state.userFunctions}/> : undefined;
+    const navBar = (this.state.renderNav) ? <this.state.renderNav state={this.state.appState} powers={this.state.userFunctions} /> : undefined;
     return (
       <div>
-        {navBar }
+        {navBar}
         <this.state.view state={this.state.appState} powers={this.state.userFunctions} />
       </div>
     );

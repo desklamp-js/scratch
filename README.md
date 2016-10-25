@@ -116,8 +116,8 @@ Desklamp provides some helper methods to make changing views easy.
 ### Desklamp.updateState()
 `Desklamp.updateState()` is a function that allows you to update the state of your application from within your custom functions. `Desklamp.updateState()` takes in an object of the values you would like to change in your state. By default Desklamp.updateState maintains immutability and creates an new object with all of the changes before called the default React.js setState function.
 
-### Desklamp.showState()
-`Desklamp.showState()` is a simple function that can be called anywhere in your application to show the current state. It can be very useful for debugging and logging what your state looks like if you are experiencing issues with your state data not looking how you think it should.
+### Desklamp.getState()
+`Desklamp.getState()` is a simple function that can be called anywhere in your application to show the current state. It can be very useful for debugging and logging what your state looks like if you are experiencing issues with your state data not looking how you think it should.
 
 ### Desklamp.history()
 `Desklamp.history()` is a function that runs automatically when the state of your application changes and stores the previous version of your state. This is an incredibly useful function for debugging or setting the state with any custom state object that you wish.
