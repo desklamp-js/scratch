@@ -1,93 +1,56 @@
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
 const webpack = require('webpack');
 const path = require('path');
 
 const PATHS = {
-  app: './src/index.js',
-  html: './src/index.html',
-  dist: path.join(__dirname, 'dist')
+  app: './docApp/index.js',
+  html: './docApp/index.html',
+  dist: path.join(__dirname, 'dist'),
 };
 
 module.exports = {
   entry: {
     javascript: PATHS.app,
-    html: PATHS.html
+    html: PATHS.html,
   },
   output: {
     path: PATHS.dist,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   devServer: {
-    contentBase: PATHS.dist
+    contentBase: PATHS.dist,
   },
   eslint: {
-    emitWarning: true
+    emitWarning: true,
   },
   module: {
     preLoaders: [
       {
         test: /\.(js|jsx)$/,
         loaders: ["eslint-loader"],
-        exclude: /node_modules/
-      }
+        exclude: /node_modules/,
+      },
     ],
     loaders: [
       {
         test: /\.html$/,
-        loader: "file?name=[name].[ext]"
+        loader: "file?name=[name].[ext]",
       }, {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"]
-      }
-    ]
+        loaders: ["babel-loader"],
+      }, {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass'],
+      },
+    ],
+  },
+  externals: {
+    'cheerio': 'window',
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
-  }
+    extensions: ['', '.js', '.jsx'],
+  },
 };

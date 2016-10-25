@@ -1,0 +1,44 @@
+.nav-logo {
+  margin-top: 100px;
+}
+.nav-text-logo {
+  padding-top: 15px;
+}
+nav {
+  height: 64px;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 4px 10px;
+  border: 1px solid rgb(204, 204, 204);
+  background-color: yellow;
+}
+li {
+  padding-top: 15px;
+}
+.side-nav {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 4px 10px;
+  border: 1px solid rgb(204, 204, 204);
+  line-height: 1.7em;
+  padding: 40px;
+  z-index: 9;
+}
+.nav-text-logo {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 300px;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.small{
+  padding-top: 5px;
+  font-size:.75em;
+}
+

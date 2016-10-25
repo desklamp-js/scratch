@@ -1,0 +1,57 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.words {
+  width: 550px;
+}
+.code {
+  margin-top: 85px;
+}
+.browser {
+  margin-top: 20px;
+  height: 500px;
+}
+.browserStyle {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 4px 10px;
+  border: 1px solid rgb(204, 204, 204);
+  flex: 1 1 0%;
+  flex-direction: column;
+  display: flex;
+}
+.url {
+  height: 80px;
+  width: 100%;
+  background-color: #D3D3D3;
+}
+.url-bar {
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 20px;
+  height: 40px;
+  width: 400px;
+  border-radius: 8px;
+  border: 1px solid grey;
+  background-color: white;
+}
+.rocket {
+  width: 20px;
+  height: 20px;
+}
+.arrow {
+  display: inline-block;
+  margin: 10px;
+}
+.left-arrow {
+  margin-left: 20px;
+}
+
+.anchor{
+  color: blue;
+}
+
+.anchor:hover{
+  color: purple;
+}
