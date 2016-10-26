@@ -4,7 +4,6 @@ const Posts = ({ state }) => {
   return (
     <div className="container">
       <h1>This the posts page</h1>
-      
         {state.posts.map((message) => {
           return (
           [<div className="posts">
@@ -19,8 +18,8 @@ const Posts = ({ state }) => {
   );
 };
 
-Posts.defaultProps = {
-  posts: [],
-};
+// Posts.defaultProps = {
+//   posts: [],
+// };
 
 export default Posts;

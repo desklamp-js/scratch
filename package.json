@@ -7,8 +7,7 @@
     "start": "webpack-dev-server --hot --inline",
     "server": "nodemon ./docApp/server.js",
     "build": "webpack",
-    "test": "mocha --compilers js:babel-core/register  --recursive"
-  },
+    "test": "mocha --compilers js:babel-core/register --recursive -w ./testApp/testing/enzyme-testing.js" },
   "author": "",
   "license": "ISC",
   "devDependencies": {
